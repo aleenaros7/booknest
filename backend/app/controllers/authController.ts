@@ -42,7 +42,9 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { userName, password } = req.body;
-    const user = await User.findOne({ userName });
+    const user = await User.findOne({
+      $or: [{ userName }, { email: userName }],
+    }).lean();
 
     if (!user) {
       return ResponseHelper.handleError(
@@ -64,9 +66,15 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const token = TokenUtil.generateToken(user);
 
-    ResponseHelper.handleSuccess(res, "Login successful", {}, StatusCodes.OK, [
-      { name: "token", value: token, options: tokenOptions },
-    ]);
+    ResponseHelper.handleSuccess(
+      res,
+      "Login successful",
+      {
+        user: { ...user, token },
+      },
+      StatusCodes.OK,
+      [{ name: "token", value: token, options: tokenOptions }]
+    );
   } catch (error) {
     console.log(error);
     return ResponseHelper.handleError(res, "Login failed");
