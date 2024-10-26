@@ -1,3 +1,4 @@
+import { UseQueryOptions } from "react-query";
 import { Role } from "../enums";
 
 export type User = {
@@ -9,3 +10,10 @@ export type User = {
   role: Role;
   token: string;
 };
+
+export type QueryOptions<TData> =
+  | Omit<
+      UseQueryOptions<TData, unknown, TData, unknown[]>,
+      "queryKey" | "queryFn"
+    >
+  | undefined;
