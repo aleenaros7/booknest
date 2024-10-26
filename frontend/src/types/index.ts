@@ -17,3 +17,9 @@ export type QueryOptions<TData> =
       "queryKey" | "queryFn"
     >
   | undefined;
+
+export type ToastOptions = {
+  message: string;
+  severity?: "error" | "info" | "warning" | "success";
+  open: boolean;
+};

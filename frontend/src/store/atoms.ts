@@ -1,6 +1,7 @@
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import { SESSION_STORAGE_USER_KEY } from "../constants";
-import { User } from "../types";
+import { ToastOptions, User } from "../types";
+import { atom } from "jotai";
 
 export const storage = createJSONStorage<any>(() => sessionStorage);
 
@@ -21,3 +22,9 @@ export const userAtom = atomWithStorage<User | null>(
   getDefaultValue(),
   storage
 );
+
+export const toastOptionsAtom = atom<ToastOptions>({
+  open: false,
+  message: "",
+  severity: "info",
+});
