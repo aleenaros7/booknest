@@ -5,7 +5,7 @@ import { User } from "app/models/User.js";
 import { PasswordUtil } from "app/utils/PasswordUtil";
 import { tokenOptions, TokenUtil } from "app/utils/TokenUtil";
 
-export const registerUser = async (req: Request, res: Response) => {
+export const signUpUser = async (req: Request, res: Response) => {
   try {
     const { fullName, userName, email, password } = req.body;
     const isExistingUser = await User.findOne({
@@ -39,7 +39,7 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const signInUser = async (req: Request, res: Response) => {
   try {
     const { userName, password } = req.body;
     const user = await User.findOne({
