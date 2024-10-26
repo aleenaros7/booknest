@@ -3,7 +3,7 @@ export const config = {
     baseUrl: "http://localhost:5000",
     user: {},
     auth: {
-      login: "/login"
+      login: "/auth/login",
     },
     books: {},
     librarian: {},

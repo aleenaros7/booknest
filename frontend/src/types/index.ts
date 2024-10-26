@@ -23,3 +23,10 @@ export type ToastOptions = {
   severity?: "error" | "info" | "warning" | "success";
   open: boolean;
 };
+
+export type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+  statusCode: number;
+};

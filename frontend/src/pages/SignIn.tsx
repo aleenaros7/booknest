@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
@@ -11,8 +10,12 @@ import { useValidateForm } from "../hooks";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
 import { useLoginMutation } from "../api";
-import { toastOptionsAtom } from "../store";
+import { toastOptionsAtom, userAtom } from "../store";
 import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Role } from "../enums";
+import { StatusCodes } from "http-status-codes";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -33,21 +36,54 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export const SignIn = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [, setToastOptions] = useAtom(toastOptionsAtom);
-
+  const [, setUser] = useAtom(userAtom);
+  const { register, handleSubmit, errors } = useValidateForm(loginSchema);
+  const navigate = useNavigate();
   const loginMutation = useLoginMutation();
 
-  const { register, handleSubmit, errors } = useValidateForm(loginSchema);
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+      const user = loginMutation.data;
+      setUser(user);
+      setLoading(false);
+
+      if (user.role === Role.LIBRARIAN) {
+        navigate("/librarian");
+      } else if (user.role === Role.USER) {
+        navigate("/student");
+      }
+    }
+
+    if (loginMutation.isError) {
+      if (
+        loginMutation.error.status === StatusCodes.UNAUTHORIZED ||
+        loginMutation.error.status === StatusCodes.NOT_FOUND
+      ) {
+        setToastOptions({
+          open: true,
+          message: "Invalid credentials",
+          severity: "error",
+        });
+      }
+      setLoading(false);
+    }
+
+    if (loginMutation.isLoading) {
+      setLoading(true);
+    }
+  }, [
+    loginMutation.isSuccess,
+    loginMutation.isError,
+    loginMutation.data,
+    loginMutation.error,
+    loginMutation.isLoading,
+  ]);
 
   const handleLogin = (data: any) => {
-    console.log(data);
-
-    setToastOptions({
-      open: true,
-      message: "SignIn successful",
-      severity: "success",
-    });
+    loginMutation.mutate(data);
   };
 
   return (
@@ -128,8 +164,13 @@ export const SignIn = () => {
               },
             }}
           />
-          <Button type="submit" fullWidth variant="contained">
-            Sign in
+          <Button
+            type="submit"
+            disabled={loading}
+            fullWidth
+            variant="contained"
+          >
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
           <Typography sx={{ textAlign: "center" }}>
             Don&apos;t have an account?{" "}

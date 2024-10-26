@@ -41,7 +41,7 @@ export const Toast: React.FC<ToastProps> = ({
         sx={{
           width: "100%",
           ...(severity === "success" && {
-            backgroundColor: "white",
+            backgroundColor: "#3e8bd2",
           }),
         }}
       >
