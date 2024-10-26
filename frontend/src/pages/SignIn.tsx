@@ -5,11 +5,11 @@ import Typography from "@mui/material/Typography";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { TextField } from "../components";
-import { loginSchema } from "../validations";
+import { signInSchema } from "../validations";
 import { useValidateForm } from "../hooks";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
-import { useLoginMutation } from "../api";
+import { useSignInMutation } from "../api";
 import { toastOptionsAtom, userAtom } from "../store";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -40,13 +40,13 @@ export const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [, setToastOptions] = useAtom(toastOptionsAtom);
   const [, setUser] = useAtom(userAtom);
-  const { register, handleSubmit, errors } = useValidateForm(loginSchema);
+  const { register, handleSubmit, errors } = useValidateForm(signInSchema);
   const navigate = useNavigate();
-  const loginMutation = useLoginMutation();
+  const signInMutation = useSignInMutation();
 
   useEffect(() => {
-    if (loginMutation.isSuccess) {
-      const user = loginMutation.data;
+    if (signInMutation.isSuccess) {
+      const user = signInMutation.data;
       setUser(user);
       setLoading(false);
 
@@ -57,10 +57,10 @@ export const SignIn = () => {
       }
     }
 
-    if (loginMutation.isError) {
+    if (signInMutation.isError) {
       if (
-        loginMutation.error.status === StatusCodes.UNAUTHORIZED ||
-        loginMutation.error.status === StatusCodes.NOT_FOUND
+        signInMutation.error.status === StatusCodes.UNAUTHORIZED ||
+        signInMutation.error.status === StatusCodes.NOT_FOUND
       ) {
         setToastOptions({
           open: true,
@@ -71,19 +71,19 @@ export const SignIn = () => {
       setLoading(false);
     }
 
-    if (loginMutation.isLoading) {
+    if (signInMutation.isLoading) {
       setLoading(true);
     }
   }, [
-    loginMutation.isSuccess,
-    loginMutation.isError,
-    loginMutation.data,
-    loginMutation.error,
-    loginMutation.isLoading,
+    signInMutation.isSuccess,
+    signInMutation.isError,
+    signInMutation.data,
+    signInMutation.error,
+    signInMutation.isLoading,
   ]);
 
-  const handleLogin = (data: any) => {
-    loginMutation.mutate(data);
+  const handleSignIn = (data: any) => {
+    signInMutation.mutate(data);
   };
 
   return (
@@ -107,7 +107,7 @@ export const SignIn = () => {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(handleLogin)}
+          onSubmit={handleSubmit(handleSignIn)}
           sx={{
             display: "flex",
             flexDirection: "column",

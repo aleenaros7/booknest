@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Error, Librarian, SignIn, Signup, Student } from "./pages";
+import { Error, Librarian, SignIn, SignUp, Student } from "./pages";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toast } from "./components";
 import { useAtom } from "jotai";
@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<Signup />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/librarian" element={<Librarian />} />
           <Route path="/student" element={<Student />} />
           <Route path="/" element={<Navigate to={"/sign-in"} />} />

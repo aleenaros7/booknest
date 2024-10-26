@@ -1,5 +1,5 @@
 export * from "./Error";
 export * from "./Librarian";
 export * from "./SignIn";
-export * from "./Signup";
+export * from "./SignUp";
 export * from "./Student";

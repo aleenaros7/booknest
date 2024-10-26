@@ -3,7 +3,8 @@ export const config = {
     baseUrl: "http://localhost:5000",
     user: {},
     auth: {
-      login: "/auth/login",
+      signIn: "/auth/sign-in",
+      signUp: "/auth/sign-up",
     },
     books: {},
     librarian: {},

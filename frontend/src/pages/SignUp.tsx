@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,6 +8,11 @@ import { signupSchema } from "../validations";
 import { useValidateForm } from "../hooks";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
+import { useSignUpMutation } from "../api";
+import { toastOptionsAtom } from "../store";
+import { useAtom } from "jotai";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -28,13 +32,53 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }),
 }));
 
-export const Signup = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-
+export const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [, setToastOptions] = useAtom(toastOptionsAtom);
   const { register, handleSubmit, errors } = useValidateForm(signupSchema);
+  const navigate = useNavigate();
+  const signUpMutation = useSignUpMutation();
 
-  const handleSignup = (data: any) => {
-    console.log(data);
+  useEffect(() => {
+    if (signUpMutation.isSuccess) {
+      setLoading(false);
+      navigate("/sign-in");
+    }
+
+    if (signUpMutation.isError) {
+      setLoading(false);
+
+      if (signUpMutation.error.status === 409) {
+        setToastOptions({
+          open: true,
+          message:
+            signUpMutation.error.response?.data.message ||
+            "UserName or email already exists",
+          severity: "error",
+        });
+      } else {
+        setToastOptions({
+          open: true,
+          message: "Cannot register at this moment",
+          severity: "error",
+        });
+      }
+    }
+
+    if (signUpMutation.isLoading) {
+      setLoading(true);
+    }
+  }, [
+    signUpMutation.isSuccess,
+    signUpMutation.isError,
+    signUpMutation.data,
+    signUpMutation.error,
+    signUpMutation.isLoading,
+  ]);
+
+  const handleSignUp = (data: any) => {
+    signUpMutation.mutate(data);
   };
 
   return (
@@ -58,7 +102,7 @@ export const Signup = () => {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(handleSignup)}
+          onSubmit={handleSubmit(handleSignUp)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -141,8 +185,13 @@ export const Signup = () => {
               },
             }}
           />
-          <Button type="submit" fullWidth variant="contained">
-            Sign up
+          <Button
+            type="submit"
+            disabled={loading}
+            fullWidth
+            variant="contained"
+          >
+            {loading ? "Creating account" : "Sign Up"}
           </Button>
         </Box>
       </Card>
