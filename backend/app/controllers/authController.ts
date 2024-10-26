@@ -12,10 +12,19 @@ export const signUpUser = async (req: Request, res: Response) => {
       $or: [{ userName }, { email }],
     });
 
-    if (isExistingUser) {
+    if (isExistingUser && isExistingUser.email === email) {
       return ResponseHelper.handleError(
         res,
-        "Already exists",
+        "Email already exists",
+        {},
+        StatusCodes.CONFLICT
+      );
+    }
+
+    if (isExistingUser && isExistingUser.userName === userName) {
+      return ResponseHelper.handleError(
+        res,
+        "UserName already exists",
         {},
         StatusCodes.CONFLICT
       );
