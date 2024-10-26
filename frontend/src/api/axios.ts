@@ -36,7 +36,7 @@ client.interceptors.response.use(
     const { response } = error;
     if (response && response.status === 401) {
       sessionStorage.removeItem(SESSION_STORAGE_USER_KEY);
-      window.location.href = "/login";
+      window.location.href = "/sign-in";
     }
     return Promise.reject(error);
   }

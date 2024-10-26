@@ -10,6 +10,9 @@ import { loginSchema } from "../validations";
 import { useValidateForm } from "../hooks";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
+import { useLoginMutation } from "../api";
+import { toastOptionsAtom } from "../store";
+import { useAtom } from "jotai";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -29,13 +32,22 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }),
 }));
 
-export const Login = () => {
+export const SignIn = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [, setToastOptions] = useAtom(toastOptionsAtom);
+
+  const loginMutation = useLoginMutation();
 
   const { register, handleSubmit, errors } = useValidateForm(loginSchema);
 
   const handleLogin = (data: any) => {
     console.log(data);
+
+    setToastOptions({
+      open: true,
+      message: "SignIn successful",
+      severity: "success",
+    });
   };
 
   return (
@@ -122,10 +134,7 @@ export const Login = () => {
           <Typography sx={{ textAlign: "center" }}>
             Don&apos;t have an account?{" "}
             <span>
-              <Link
-                href="/sign-up"
-                sx={{ alignSelf: "center" }}
-              >
+              <Link href="/sign-up" sx={{ alignSelf: "center" }}>
                 Sign up
               </Link>
             </span>
