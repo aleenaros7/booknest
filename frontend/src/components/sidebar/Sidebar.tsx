@@ -1,0 +1,115 @@
+import { styled } from "@mui/material/styles";
+import Avatar from "@mui/material/Avatar";
+import MuiDrawer, { drawerClasses } from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+
+import { Menu } from "../../types";
+import { useAtom } from "jotai";
+import { userAtom } from "../../store";
+import { useState } from "react";
+
+const drawerWidth = 240;
+
+const Drawer = styled(MuiDrawer)({
+  width: drawerWidth,
+  flexShrink: 0,
+  boxSizing: "border-box",
+  mt: 10,
+  [`& .${drawerClasses.paper}`]: {
+    width: drawerWidth,
+    boxSizing: "border-box",
+  },
+});
+
+export const Sidebar = ({ menu }: { menu: Menu[] }) => {
+  const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
+  const [user] = useAtom(userAtom);
+
+  return (
+    <Drawer
+      variant="permanent"
+      sx={{
+        [`& .${drawerClasses.paper}`]: {
+          backgroundColor: "background.paper",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          mt: "calc(var(--template-frame-height, 0px) + 4px)",
+          p: 1.5,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
+            BookNest
+          </Typography>
+        </Box>
+      </Box>
+      <Divider />
+      <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
+        <List dense>
+          {menu.map((item, index) => (
+            <ListItem key={index} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                selected={index === selectedMenuIndex}
+                onClick={() => {
+                  setSelectedMenuIndex(index);
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Stack>
+      <Stack
+        direction="row"
+        sx={{
+          p: 2,
+          gap: 1,
+          alignItems: "center",
+          borderTop: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        <Avatar
+          sizes="small"
+          alt="Riley Carter"
+          src="/static/images/avatar/7.jpg"
+          sx={{ width: 36, height: 36 }}
+        />
+        <Box sx={{ mr: "auto" }}>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 500, lineHeight: "16px" }}
+          >
+            {user?.fullName}
+          </Typography>
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
+            {user?.email}
+          </Typography>
+        </Box>
+      </Stack>
+    </Drawer>
+  );
+};
