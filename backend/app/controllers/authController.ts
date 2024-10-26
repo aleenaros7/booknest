@@ -73,7 +73,6 @@ export const loginUser = async (req: Request, res: Response) => {
         user: { ...user, token },
       },
       StatusCodes.OK,
-      [{ name: "token", value: token, options: tokenOptions }]
     );
   } catch (error) {
     console.log(error);

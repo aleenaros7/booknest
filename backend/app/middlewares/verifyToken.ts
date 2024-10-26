@@ -13,7 +13,8 @@ export const verifyToken = async (
   const tokenSecret = config.get<string>("token.jwtTokenSecret");
 
   try {
-    const token = req.cookies?.token;
+    const token = req.headers.authorization?.split(" ")[1];
+
     if (!token) {
       return ResponseHelper.handleError(
         res,
