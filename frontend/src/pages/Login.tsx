@@ -19,7 +19,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   [theme.breakpoints.up("sm")]: {
-    width: "350px",
+    width: "400px",
   },
   boxShadow:
     "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
@@ -70,9 +70,9 @@ export const Login = () => {
           <TextField
             label={"Username"}
             register={register}
-            error={errors["username"]}
-            id="username"
-            name="username"
+            error={errors["userName"]}
+            id="userName"
+            name="userName"
             placeholder="username"
             autoComplete="username"
             autoFocus
