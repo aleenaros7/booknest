@@ -3,11 +3,11 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 export class DateUtil {
-  static async today(): Promise<Date> {
+  static today(): Date {
     return dayjs().utc().toDate();
   }
 
-  static async dateAfter(days: number): Promise<Date> {
+  static dateAfter(days: number): Date {
     return dayjs.utc().add(days, "day").toDate();
   }
 
@@ -16,27 +16,27 @@ export class DateUtil {
     return dayjs(baseDate).add(minutes, "minute").utc().toDate();
   }
 
-  static async afterHours(hours: number, fromDate?: Date): Promise<Date> {
+  static afterHours(hours: number, fromDate?: Date): Date {
     const baseDate = fromDate || dayjs.utc().toDate();
     return dayjs(baseDate).add(hours, "hour").utc().toDate();
   }
 
-  static async afterDays(days: number, fromDate?: Date): Promise<Date> {
+  static afterDays(days: number, fromDate?: Date): Date {
     const baseDate = fromDate || dayjs.utc().toDate();
     return dayjs(baseDate).add(days, "day").utc().toDate();
   }
 
-  static async afterMonths(months: number, fromDate?: Date): Promise<Date> {
+  static afterMonths(months: number, fromDate?: Date): Date {
     const baseDate = fromDate || dayjs.utc().toDate();
     return dayjs(baseDate).add(months, "month").utc().toDate();
   }
 
-  static async afterYears(years: number, fromDate?: Date): Promise<Date> {
+  static afterYears(years: number, fromDate?: Date): Date {
     const baseDate = fromDate || dayjs.utc().toDate();
     return dayjs(baseDate).add(years, "year").utc().toDate();
   }
 
-  static async isAfter(date: Date): Promise<boolean> {
+  static isAfter(date: Date): boolean {
     return dayjs.utc().isAfter(date);
   }
 }

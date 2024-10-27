@@ -105,11 +105,13 @@ export const Books = () => {
       </Box>
       <Box sx={{ width: "100%" }}>
         <Grid direction="row" container size={12}>
-          {books.map((book) => (
-            <Grid size={3} sx={{ p: 2 }}>
-              <BookItem book={book} />
-            </Grid>
-          ))}
+          {books
+            .filter((e) => genre === "all" || e.genre === genre)
+            .map((book) => (
+              <Grid size={3} sx={{ p: 2 }}>
+                <BookItem book={book} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </>

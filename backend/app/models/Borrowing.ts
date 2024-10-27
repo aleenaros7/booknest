@@ -1,4 +1,5 @@
 import { BorrowingStatus } from "app/enums";
+import { DateUtil } from "app/utils/DateUtil";
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,9 +9,10 @@ export interface IBorrowing {
   borrowingId: string;
   userId: string;
   bookId: string;
-  borrowDate: Date;
+  borrowRequestDate: Date;
+  issuedDate: Date;
   dueDate: Date;
-  returnDate?: Date;
+  returnedDate?: Date;
   status: BorrowingStatus;
 }
 
@@ -19,16 +21,17 @@ const BorrowingSchema = new Schema<IBorrowing>(
     borrowingId: {
       type: String,
       unique: true,
-      default: () => uuidv4(),
+      default: () => uuidv4().toUpperCase(),
     },
     userId: { type: String, required: true },
     bookId: { type: String, required: true },
-    borrowDate: { type: Date, default: Date.now },
-    dueDate: { type: Date, required: true },
-    returnDate: { type: Date },
+    borrowRequestDate: { type: Date, default: DateUtil.today() },
+    issuedDate: { type: Date },
+    dueDate: { type: Date },
+    returnedDate: { type: Date },
     status: {
       type: String,
-      default: BorrowingStatus.BORROWED,
+      default: BorrowingStatus.REQUESTED,
     },
   },
   { timestamps: true }

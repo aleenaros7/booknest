@@ -44,6 +44,19 @@ export const HistoryItem = () => {
           <Divider orientation="vertical" flexItem />
           <CardContent sx={{ px: 6 }}>
             <Typography component="div" variant="caption">
+              Requested On
+            </Typography>
+            <Typography
+              variant="caption"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              14/03/2000
+            </Typography>
+          </CardContent>
+          <Divider orientation="vertical" flexItem />
+          <CardContent sx={{ px: 6 }}>
+            <Typography component="div" variant="caption">
               Issued On
             </Typography>
             <Typography

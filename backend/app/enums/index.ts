@@ -4,7 +4,7 @@ export enum Role {
 }
 
 export enum BorrowingStatus {
+  REQUESTED = "requested",
   BORROWED = "borrowed",
   RETURNED = "returned",
-  OVERDUE = "overdue",
 }

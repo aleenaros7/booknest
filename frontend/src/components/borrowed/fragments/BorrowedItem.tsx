@@ -36,7 +36,7 @@ export const BorrowedItem = () => {
       <CardContent>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Borrowed on :
+            Issued on :
           </Typography>
           <Typography
             variant="body2"
