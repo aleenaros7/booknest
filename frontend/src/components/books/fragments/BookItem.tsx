@@ -19,9 +19,7 @@ export const BookItem = ({ book }: { book: Book }) => {
           <Avatar
             sx={{ bgcolor: red[500] }}
             aria-label="book"
-            src={
-              "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
-            }
+            src={book.logo}
           />
         }
         action={

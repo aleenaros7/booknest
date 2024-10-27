@@ -26,9 +26,9 @@ const BorrowingSchema = new Schema<IBorrowing>(
     userId: { type: String, required: true },
     bookId: { type: String, required: true },
     borrowRequestDate: { type: Date, default: DateUtil.today() },
-    issuedDate: { type: Date },
-    dueDate: { type: Date },
-    returnedDate: { type: Date },
+    issuedDate: { type: Date, default: null },
+    dueDate: { type: Date, default: null },
+    returnedDate: { type: Date, default: null },
     status: {
       type: String,
       default: BorrowingStatus.REQUESTED,

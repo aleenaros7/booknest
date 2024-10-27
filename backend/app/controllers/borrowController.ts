@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { Book, IBook } from "app/models/Book";
 import { IUser } from "app/models/User";
 import { Borrowing } from "app/models/Borrowing";
+import { BorrowingStatus } from "app/enums";
 
 export const requestBook = async (req: Request, res: Response) => {
   try {
@@ -55,7 +56,10 @@ export const fetchBorrowingInformation = async (
   try {
     const user: IUser = res.locals.user;
     const books = await Book.find().lean();
-    let borrowings = await Borrowing.find({ userId: user.userId }).lean();
+    let borrowings = await Borrowing.find({
+      userId: user.userId,
+      status: { $ne: BorrowingStatus.RETURNED },
+    }).lean();
 
     borrowings = borrowings.map((item) => {
       return {
@@ -68,7 +72,7 @@ export const fetchBorrowingInformation = async (
       res,
       "Borrowing information fetched successfully",
       {
-        borrowingInfo: borrowings,
+        borrowInfo: borrowings,
       },
       StatusCodes.OK
     );

@@ -2,47 +2,69 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import { Box, Button } from "@mui/material";
+import { Badge, Box, Chip } from "@mui/material";
+import { BorrowInfo } from "../../../types";
+import { TextField } from "../../text-field";
+import moment from "moment";
 
-export const BorrowedItem = () => {
+export const BorrowedItem = ({ info }: { info: BorrowInfo }) => {
   return (
     <Card sx={{ boxShadow: "0px 0px 14px 0px #00000040" }}>
+      <Box sx={{ px: 2, display: "flex", justifyContent: "flex-end" }}>
+        <Badge
+          badgeContent={info.status}
+          color="error"
+          sx={{
+            right: 30,
+            top: 25,
+          }}
+        ></Badge>
+      </Box>
       <CardHeader
-        avatar={
-          <Avatar
-            sx={{ bgcolor: red[500] }}
-            aria-label="book"
-            src={
-              "https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
-            }
-          />
+        avatar={<Avatar sx={{ bgcolor: red[500] }} src={info.bookInfo.logo} />}
+        title={
+          info.bookInfo.title.length > 24
+            ? `${info.bookInfo.title.slice(0, 24)}...`
+            : info.bookInfo.title
         }
-        title="Soul"
-        subheader="Stephen Hawking"
+        subheader={info.bookInfo.author}
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
-        alt="Paella dish"
+        image={info.bookInfo.logo}
+        alt={info.bookInfo.title}
         sx={{
           objectFit: "contain",
         }}
       />
+
       <CardContent>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Issued on :
+            Requested Date
           </Typography>
           <Typography
             variant="body2"
             sx={{ color: "text.secondary", fontWeight: "bold" }}
           >
-            14/03/2024
+            {moment(info.borrowRequestDate).format("DD-MM-YYYY")}
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Issued Date
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: "text.secondary", fontWeight: "bold" }}
+          >
+            {info.issuedDate
+              ? moment(info.issuedDate).format("DD-MM-YYYY")
+              : "N/A"}
           </Typography>
         </Box>
         <Box
@@ -53,21 +75,56 @@ export const BorrowedItem = () => {
           }}
         >
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Return by
+            Due Date
           </Typography>
           <Typography
             variant="body2"
             sx={{ color: "text.secondary", fontWeight: "bold" }}
           >
-            15/03/2024
+            {info.dueDate ? moment(info.dueDate).format("DD-MM-YYYY") : "N/A"}
           </Typography>
         </Box>
       </CardContent>
-      <CardActions sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" fullWidth>
-          Return
-        </Button>
-      </CardActions>
+
+      <CardContent sx={{ pt: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <TextField
+            label={"Code"}
+            fullWidth
+            disabled
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.4rem",
+                fontSize: "0.875rem !important",
+                fontWeight: 700,
+                color: "#00000099",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
+            }}
+            name={"code"}
+            value={info.borrowingId}
+          />
+        </Box>
+        <Box>
+          <Typography
+            sx={{ color: "text.secondary", fontSize: "0.6rem", pt: 2 }}
+          >
+            <span style={{ color: "#DA2902" }}>&nbsp;*</span> Present this code
+            at the library to collect / return your book.
+          </Typography>
+        </Box>
+      </CardContent>
     </Card>
   );
 };

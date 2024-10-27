@@ -1,5 +1,5 @@
 import { UseQueryOptions } from "react-query";
-import { Genre, Role } from "../enums";
+import { BorrowingStatus, Genre, Role } from "../enums";
 
 export type User = {
   userId: string;
@@ -46,4 +46,16 @@ export type Book = {
   logo: string;
   genre: Genre;
   totalCopies: number;
-}
+};
+
+export type BorrowInfo = {
+  borrowingId: string;
+  userId: string;
+  bookId: string;
+  borrowRequestDate: string;
+  issuedDate: string;
+  dueDate: string;
+  returnedDate?: string;
+  status: BorrowingStatus;
+  bookInfo: Book;
+};
