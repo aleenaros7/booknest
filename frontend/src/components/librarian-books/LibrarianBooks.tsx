@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Grid2 as Grid,
   Typography,
@@ -9,9 +10,17 @@ import { Book, DropdownItem } from "../../types";
 import { useEffect, useState } from "react";
 import { SelectBox } from "../select-box";
 import { Genre } from "../../enums";
-import { useFetchBooksQuery, useSendBorrowRequestMutation } from "../../api";
+import {
+  useCreateBookMutation,
+  useFetchBooksQuery,
+  useSendBorrowRequestMutation,
+} from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
+import { Dialog } from "../dialog";
+import { TextField } from "../text-field";
+import { useValidateForm } from "../../hooks";
+import { createBookSchema } from "../../validations";
 
 const dropdown: DropdownItem[] = [
   { key: "All", value: "all" },
@@ -27,11 +36,15 @@ const dropdown: DropdownItem[] = [
 ];
 
 export const LibrarianBooks = () => {
+  const [openCreateBookDialog, setOpenCreateBookDialog] = useState(false);
   const [genre, setGenre] = useState("all");
   const [books, setBooks] = useState<Book[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
   const fetchBooksQuery = useFetchBooksQuery();
   const sendBorrowRequestMutation = useSendBorrowRequestMutation();
+  const createBookMutation = useCreateBookMutation();
+
+  const { register, handleSubmit, errors } = useValidateForm(createBookSchema);
 
   useEffect(() => {
     if (fetchBooksQuery.isSuccess) {
@@ -51,6 +64,8 @@ export const LibrarianBooks = () => {
     fetchBooksQuery.isError,
     fetchBooksQuery.data,
     fetchBooksQuery.error,
+    fetchBooksQuery.isFetching,
+    fetchBooksQuery.isRefetching,
   ]);
 
   useEffect(() => {
@@ -77,72 +92,252 @@ export const LibrarianBooks = () => {
     sendBorrowRequestMutation.error,
   ]);
 
+  useEffect(() => {
+    if (createBookMutation.isSuccess) {
+      fetchBooksQuery.refetch();
+      setToastOptions({
+        open: true,
+        message: "Book created",
+        severity: "info",
+      });
+    }
+
+    if (createBookMutation.isError) {
+      setToastOptions({
+        open: true,
+        message: "Cannot create book at this moment",
+        severity: "error",
+      });
+    }
+  }, [
+    createBookMutation.isSuccess,
+    createBookMutation.isLoading,
+    createBookMutation.isError,
+    createBookMutation.data,
+    createBookMutation.error,
+  ]);
+
   const handleRequestBook = (bookId: string) => {
     sendBorrowRequestMutation.mutate({ bookId });
   };
 
-  return fetchBooksQuery.isLoading || sendBorrowRequestMutation.isLoading ? (
-    <Box
-      sx={{
-        px: 2,
-        pb: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  ) : fetchBooksQuery.isError || !books ? (
-    <Box
-      sx={{
-        px: 2,
-        pb: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
-      }}
-    >
-      <Typography>Something went wrong</Typography>
-    </Box>
-  ) : (
+  const handleCreateBook = ({ totalCopies, ...data }: any) => {
+    setOpenCreateBookDialog(false);
+    createBookMutation.mutate({ ...data, totalCopies: Number(totalCopies) });
+  };
+
+  return (
     <>
-      <Box
-        sx={{
-          px: 2,
-          pb: 1,
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Box>
-          <SelectBox
+      {fetchBooksQuery.isLoading ||
+      sendBorrowRequestMutation.isLoading ||
+      createBookMutation.isLoading ||
+      fetchBooksQuery.isFetching ||
+      fetchBooksQuery.isRefetching ? (
+        <Box
+          sx={{
+            px: 2,
+            pb: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : fetchBooksQuery.isError || !books ? (
+        <Box
+          sx={{
+            px: 2,
+            pb: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <Typography>Something went wrong</Typography>
+        </Box>
+      ) : (
+        <>
+          <Box
             sx={{
-              width: "200px",
+              px: 2,
+              pb: 1,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+              gap: 2,
             }}
+          >
+            <Box>
+              <SelectBox
+                sx={{
+                  width: "200px",
+                }}
+                label="Genre"
+                name="genre"
+                dropdown={dropdown}
+                value={genre}
+                onChange={(event: any) => {
+                  setGenre(event.target.value);
+                }}
+              />
+            </Box>
+            <Button
+              variant="contained"
+              sx={{
+                width: "200px",
+                height: "40px",
+              }}
+              onClick={() => {
+                setOpenCreateBookDialog(true);
+              }}
+            >
+              Add Book
+            </Button>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <Grid direction="row" container size={12}>
+              {books
+                .filter((e) => genre === "all" || e.genre === genre)
+                .map((book, index) => (
+                  <Grid size={3} sx={{ p: 2 }} key={index}>
+                    <LibrarianBookItem
+                      book={book}
+                      handleRequest={handleRequestBook}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </Box>
+        </>
+      )}
+
+      <Dialog
+        title={"Add Book"}
+        open={openCreateBookDialog}
+        setOpen={setOpenCreateBookDialog}
+        form="createBookForm"
+      >
+        <Box
+          component={"form"}
+          id="createBookForm"
+          onSubmit={handleSubmit(handleCreateBook)}
+          sx={{
+            minWidth: "500px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          <TextField
+            label={"Title"}
+            name={"title"}
+            register={register}
+            error={errors["title"]}
+            fullWidth
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.6rem",
+                fontSize: "0.875rem !important",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
+            }}
+          />
+          <TextField
+            label={"Author"}
+            name={"author"}
+            register={register}
+            error={errors["author"]}
+            fullWidth
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.6rem",
+                fontSize: "0.875rem !important",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
+            }}
+          />
+          <TextField
+            label={"Description"}
+            name={"description"}
+            register={register}
+            error={errors["description"]}
+            fullWidth
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.6rem",
+                fontSize: "0.875rem !important",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
+            }}
+          />
+          <TextField
+            label={"Logo URL"}
+            name={"logo"}
+            register={register}
+            error={errors["logo"]}
+            fullWidth
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.6rem",
+                fontSize: "0.875rem !important",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
+            }}
+          />
+          <SelectBox
+            fullWidth
             label="Genre"
             name="genre"
             dropdown={dropdown}
-            value={genre}
-            onChange={(event: any) => {
-              setGenre(event.target.value);
+            register={register}
+            error={errors["genre"]}
+          />
+          <TextField
+            type="number"
+            label={"Total Copies"}
+            name={"totalCopies"}
+            register={register}
+            error={errors["totalCopies"]}
+            fullWidth
+            spinBtn={true}
+            variant="outlined"
+            sx={{
+              "& .MuiInputBase-input": {
+                padding: "0.6rem",
+                fontSize: "0.875rem !important",
+              },
+            }}
+            labelSx={{
+              fontSize: "14px",
+              color: "#00000099",
+              fontWeight: 400,
             }}
           />
         </Box>
-      </Box>
-      <Box sx={{ width: "100%" }}>
-        <Grid direction="row" container size={12}>
-          {books
-            .filter((e) => genre === "all" || e.genre === genre)
-            .map((book) => (
-              <Grid size={3} sx={{ p: 2 }}>
-                <LibrarianBookItem book={book} handleRequest={handleRequestBook} />
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+      </Dialog>
     </>
   );
 };

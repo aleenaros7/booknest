@@ -7,7 +7,8 @@ export const config = {
       signUp: "/auth/sign-up",
     },
     books: {
-      fetchBooks: "/books/",
+      createBook: "/books",
+      fetchBooks: "/books",
       fetchBorrowInfo: "/books/borrow-info",
       fetchBorrowHistory: "/books/borrow-history",
       sendBorrowRequest: "/books/:bookId/borrow-request",

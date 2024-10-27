@@ -6,14 +6,13 @@ import { Book } from "app/models/Book";
 export const createBook = async (req: Request, res: Response) => {
   try {
     const { title, author, description, logo, genre, totalCopies } = req.body;
-
     const book = await Book.create({
       title,
       author,
       description,
       logo,
       genre,
-      totalCopies,
+      totalCopies: totalCopies > 0 ? totalCopies : 1,
     });
 
     ResponseHelper.handleSuccess(
@@ -47,7 +46,7 @@ export const bulkCreateBooks = async (req: Request, res: Response) => {
 
 export const fetchBooks = async (req: Request, res: Response) => {
   try {
-    const books = await Book.find().lean();
+    const books = await Book.find().sort({ createdAt: -1 }).lean();
 
     ResponseHelper.handleSuccess(
       res,

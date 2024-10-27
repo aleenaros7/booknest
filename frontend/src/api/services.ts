@@ -131,3 +131,21 @@ export const useSendBorrowRequestMutation = () => {
 
   return mutation;
 };
+
+export const useCreateBookMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    Omit<Book, "bookId">,
+    unknown
+  >(async (data: Omit<Book, "bookId">): Promise<any> => {
+    const path = config.api.books.createBook;
+
+    const response = await client.post(path, {
+      ...data,
+    });
+    return response.data;
+  });
+
+  return mutation;
+};
