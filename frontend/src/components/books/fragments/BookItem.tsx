@@ -11,7 +11,13 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { Badge, Box, Button } from "@mui/material";
 import { Book } from "../../../types";
 
-export const BookItem = ({ book }: { book: Book }) => {
+export const BookItem = ({
+  book,
+  handleRequest,
+}: {
+  book: Book;
+  handleRequest: (bookId: string) => void;
+}) => {
   return (
     <Card sx={{ boxShadow: "0px 0px 14px 0px #00000040", height: "400px" }}>
       <CardHeader
@@ -58,8 +64,14 @@ export const BookItem = ({ book }: { book: Book }) => {
           </Typography>
         </CardContent>
         <CardActions sx={{ px: 2, pb: 2 }}>
-          <Button variant="contained" fullWidth>
-            Borrow
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              handleRequest(book.bookId);
+            }}
+          >
+            Request
           </Button>
         </CardActions>
       </Box>

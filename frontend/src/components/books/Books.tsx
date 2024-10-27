@@ -9,7 +9,7 @@ import { Book, DropdownItem } from "../../types";
 import { useEffect, useState } from "react";
 import { SelectBox } from "../select-box";
 import { Genre } from "../../enums";
-import { useFetchBooksQuery } from "../../api";
+import { useFetchBooksQuery, useSendBorrowRequestMutation } from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
 
@@ -31,6 +31,7 @@ export const Books = () => {
   const [books, setBooks] = useState<Book[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
   const fetchBooksQuery = useFetchBooksQuery();
+  const sendBorrowRequestMutation = useSendBorrowRequestMutation();
 
   useEffect(() => {
     if (fetchBooksQuery.isSuccess) {
@@ -52,7 +53,35 @@ export const Books = () => {
     fetchBooksQuery.error,
   ]);
 
-  return fetchBooksQuery.isLoading ? (
+  useEffect(() => {
+    if (sendBorrowRequestMutation.isSuccess) {
+      setToastOptions({
+        open: true,
+        message: "Book requested",
+        severity: "info",
+      });
+    }
+
+    if (sendBorrowRequestMutation.isError) {
+      setToastOptions({
+        open: true,
+        message: "Cannot request book at this moment",
+        severity: "error",
+      });
+    }
+  }, [
+    sendBorrowRequestMutation.isSuccess,
+    sendBorrowRequestMutation.isLoading,
+    sendBorrowRequestMutation.isError,
+    sendBorrowRequestMutation.data,
+    sendBorrowRequestMutation.error,
+  ]);
+
+  const handleRequestBook = (bookId: string) => {
+    sendBorrowRequestMutation.mutate({ bookId });
+  };
+
+  return fetchBooksQuery.isLoading || sendBorrowRequestMutation.isLoading ? (
     <Box
       sx={{
         px: 2,
@@ -109,7 +138,7 @@ export const Books = () => {
             .filter((e) => genre === "all" || e.genre === genre)
             .map((book) => (
               <Grid size={3} sx={{ p: 2 }}>
-                <BookItem book={book} />
+                <BookItem book={book} handleRequest={handleRequestBook} />
               </Grid>
             ))}
         </Grid>

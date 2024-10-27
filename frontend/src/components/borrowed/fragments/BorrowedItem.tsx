@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import { Badge, Box, Chip } from "@mui/material";
+import { Badge, Box } from "@mui/material";
 import { BorrowInfo } from "../../../types";
 import { TextField } from "../../text-field";
 import moment from "moment";
