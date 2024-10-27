@@ -17,7 +17,7 @@ import { Genre } from "../../enums";
 import {
   useCreateBookMutation,
   useFetchBooksQuery,
-  useSendBorrowRequestMutation,
+  useUpdateBookMutation,
 } from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
@@ -45,10 +45,18 @@ export const LibrarianBooks = () => {
   const [books, setBooks] = useState<Book[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
   const fetchBooksQuery = useFetchBooksQuery();
-  const sendBorrowRequestMutation = useSendBorrowRequestMutation();
   const createBookMutation = useCreateBookMutation();
+  const updateBookMutation = useUpdateBookMutation();
 
-  const { register, handleSubmit, errors } = useValidateForm(createBookSchema);
+  const { register, handleSubmit, errors, reset } =
+    useValidateForm(createBookSchema);
+
+  useEffect(() => {
+    if (!openEditBookDialog) {
+      console.log("set undefined");
+      setBookDefaultValues(undefined);
+    }
+  }, [openEditBookDialog]);
 
   useEffect(() => {
     if (fetchBooksQuery.isSuccess) {
@@ -73,27 +81,30 @@ export const LibrarianBooks = () => {
   ]);
 
   useEffect(() => {
-    if (sendBorrowRequestMutation.isSuccess) {
+    setBookDefaultValues(undefined);
+
+    if (updateBookMutation.isSuccess) {
+      fetchBooksQuery.refetch();
       setToastOptions({
         open: true,
-        message: "Book requested",
+        message: "Book updated",
         severity: "info",
       });
     }
 
-    if (sendBorrowRequestMutation.isError) {
+    if (updateBookMutation.isError) {
       setToastOptions({
         open: true,
-        message: "Cannot request book at this moment",
+        message: "Cannot update book at this moment",
         severity: "error",
       });
     }
   }, [
-    sendBorrowRequestMutation.isSuccess,
-    sendBorrowRequestMutation.isLoading,
-    sendBorrowRequestMutation.isError,
-    sendBorrowRequestMutation.data,
-    sendBorrowRequestMutation.error,
+    updateBookMutation.isSuccess,
+    updateBookMutation.isLoading,
+    updateBookMutation.isError,
+    updateBookMutation.data,
+    updateBookMutation.error,
   ]);
 
   useEffect(() => {
@@ -122,9 +133,10 @@ export const LibrarianBooks = () => {
   ]);
 
   const handleUpdateBook = (book: Book) => {
-    // sendBorrowRequestMutation.mutate({ bookId });
     setBookDefaultValues(book);
     setOpenEditBookDialog(true);
+
+    console.log(book);
   };
 
   const handleCreateBook = ({ totalCopies, ...data }: any) => {
@@ -134,15 +146,17 @@ export const LibrarianBooks = () => {
 
   const handleEditBook = ({ totalCopies, ...data }: any) => {
     setOpenEditBookDialog(false);
-    // createBookMutation.mutate({ ...data, totalCopies: Number(totalCopies) });
-
-    console.log({ ...data, totalCopies: Number(totalCopies) });
+    updateBookMutation.mutate({
+      ...data,
+      totalCopies: Number(totalCopies),
+      bookId: bookDefaultValues?.bookId,
+    });
   };
 
   return (
     <>
       {fetchBooksQuery.isLoading ||
-      sendBorrowRequestMutation.isLoading ||
+      updateBookMutation.isLoading ||
       createBookMutation.isLoading ||
       fetchBooksQuery.isFetching ||
       fetchBooksQuery.isRefetching ? (
@@ -234,17 +248,21 @@ export const LibrarianBooks = () => {
         handleClickSubmit={handleCreateBook}
         handleSubmit={handleSubmit}
         register={register}
+        reset={reset}
       />
-      <EditBookDialog
-        title={"Edit Book"}
-        defaultValues={bookDefaultValues}
-        openDialog={openEditBookDialog}
-        errors={errors}
-        setOpenDialog={setOpenEditBookDialog}
-        handleClickSubmit={handleEditBook}
-        handleSubmit={handleSubmit}
-        register={register}
-      />
+      {openEditBookDialog && (
+        <EditBookDialog
+          title={"Edit Book"}
+          defaultValues={bookDefaultValues}
+          openDialog={openEditBookDialog}
+          errors={errors}
+          setOpenDialog={setOpenEditBookDialog}
+          handleClickSubmit={handleEditBook}
+          handleSubmit={handleSubmit}
+          register={register}
+          reset={reset}
+        />
+      )}
     </>
   );
 };

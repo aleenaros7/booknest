@@ -149,3 +149,21 @@ export const useCreateBookMutation = () => {
 
   return mutation;
 };
+
+export const useUpdateBookMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    Book,
+    unknown
+  >(async ({ bookId, ...data }: Book): Promise<any> => {
+    const path = config.api.books.updateBook.replace(":bookId", bookId);
+
+    const response = await client.put(path, {
+      ...data,
+    });
+    return response.data;
+  });
+
+  return mutation;
+};

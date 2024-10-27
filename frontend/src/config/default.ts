@@ -8,6 +8,7 @@ export const config = {
     },
     books: {
       createBook: "/books",
+      updateBook: "/books/:bookId",
       fetchBooks: "/books",
       fetchBorrowInfo: "/books/borrow-info",
       fetchBorrowHistory: "/books/borrow-history",

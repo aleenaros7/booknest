@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dialog } from "../../dialog";
-import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import {
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormReset,
+} from "react-hook-form";
 import { Box } from "@mui/material";
 import { TextField } from "../../text-field";
 import { SelectBox } from "../../select-box";
@@ -16,6 +20,7 @@ type Props = {
   handleClickSubmit: (data: any) => void;
   handleSubmit: UseFormHandleSubmit<any>;
   register: UseFormRegister<any>;
+  reset: UseFormReset<any>;
 };
 
 const dropdown: DropdownItem[] = [
@@ -40,7 +45,14 @@ export const CreateBookDialog = ({
   handleClickSubmit,
   openDialog,
   setOpenDialog,
+  reset,
 }: Props) => {
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, []);
+
   return (
     <Dialog
       title={title}
