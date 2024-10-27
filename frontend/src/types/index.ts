@@ -32,3 +32,8 @@ export type ApiResponse<T> = {
 };
 
 export type Menu = { label: string; icon: JSX.Element };
+
+export type DropdownItem = {
+  value: number | string | undefined;
+  key: string;
+};

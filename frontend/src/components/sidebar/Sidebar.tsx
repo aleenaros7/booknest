@@ -32,7 +32,13 @@ const Drawer = styled(MuiDrawer)({
   },
 });
 
-export const Sidebar = ({ menu }: { menu: Menu[] }) => {
+export const Sidebar = ({
+  menu,
+  handleChange,
+}: {
+  menu: Menu[];
+  handleChange: (menu: Menu) => void;
+}) => {
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
   const [user] = useAtom(userAtom);
 
@@ -75,6 +81,7 @@ export const Sidebar = ({ menu }: { menu: Menu[] }) => {
                 selected={index === selectedMenuIndex}
                 onClick={() => {
                   setSelectedMenuIndex(index);
+                  handleChange(item);
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
