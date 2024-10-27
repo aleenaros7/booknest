@@ -4,11 +4,13 @@ import {
   borrowRequestSchema,
   bulkCreateBooksSchema,
   createBookSchema,
+  updateBookSchema,
 } from "app/schemas";
 import {
   bulkCreateBooks,
   createBook,
   fetchBooks,
+  updateBook,
 } from "app/controllers/bookController";
 import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
@@ -26,6 +28,14 @@ bookRouter.post(
   verifyLibrarian,
   validateRequest(createBookSchema),
   createBook
+);
+
+bookRouter.put(
+  "/:bookId",
+  verifyToken,
+  verifyLibrarian,
+  validateRequest(updateBookSchema),
+  updateBook
 );
 
 bookRouter.post(

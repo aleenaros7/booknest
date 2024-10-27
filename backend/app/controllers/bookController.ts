@@ -59,3 +59,45 @@ export const fetchBooks = async (req: Request, res: Response) => {
     return ResponseHelper.handleError(res, "Fetching books failed");
   }
 };
+
+export const updateBook = async (req: Request, res: Response) => {
+  try {
+    const { title, author, description, logo, genre, totalCopies } = req.body;
+    const { bookId } = req.params;
+
+    const book = await Book.findOne({ bookId }).lean();
+
+    if (!book) {
+      return ResponseHelper.handleError(
+        res,
+        "Book not found",
+        undefined,
+        StatusCodes.NOT_FOUND
+      );
+    }
+
+    await Book.findOneAndUpdate(
+      {
+        bookId: bookId,
+      },
+      {
+        title,
+        author,
+        description,
+        logo,
+        genre,
+        totalCopies: totalCopies > 0 ? totalCopies : 1,
+      }
+    );
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Book successfully updated",
+      undefined,
+      StatusCodes.CREATED
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Updating book failed");
+  }
+};
