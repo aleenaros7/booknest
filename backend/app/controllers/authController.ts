@@ -16,7 +16,7 @@ export const signUpUser = async (req: Request, res: Response) => {
       return ResponseHelper.handleError(
         res,
         "Email already exists",
-        {},
+        undefined,
         StatusCodes.CONFLICT
       );
     }
@@ -25,7 +25,7 @@ export const signUpUser = async (req: Request, res: Response) => {
       return ResponseHelper.handleError(
         res,
         "UserName already exists",
-        {},
+        undefined,
         StatusCodes.CONFLICT
       );
     }
@@ -40,6 +40,7 @@ export const signUpUser = async (req: Request, res: Response) => {
     ResponseHelper.handleSuccess(
       res,
       "User successfully registered",
+      undefined,
       StatusCodes.CREATED
     );
   } catch (error) {
@@ -59,7 +60,7 @@ export const signInUser = async (req: Request, res: Response) => {
       return ResponseHelper.handleError(
         res,
         "User not found",
-        {},
+        undefined,
         StatusCodes.NOT_FOUND
       );
     }
@@ -68,7 +69,7 @@ export const signInUser = async (req: Request, res: Response) => {
       return ResponseHelper.handleError(
         res,
         "Invalid credentials",
-        {},
+        undefined,
         StatusCodes.UNAUTHORIZED
       );
     }

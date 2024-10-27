@@ -15,7 +15,7 @@ export const registerLibrarian = async (req: Request, res: Response) => {
       return ResponseHelper.handleError(
         res,
         "Already exists",
-        {},
+        undefined,
         StatusCodes.CONFLICT
       );
     }
@@ -31,6 +31,7 @@ export const registerLibrarian = async (req: Request, res: Response) => {
     ResponseHelper.handleSuccess(
       res,
       "Librarian successfully registered",
+      undefined,
       StatusCodes.CREATED
     );
   } catch (error) {
