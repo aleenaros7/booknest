@@ -4,6 +4,7 @@ import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import BookIcon from "@mui/icons-material/Book";
+import HistoryIcon from "@mui/icons-material/History";
 import { Sidebar } from "../components";
 import { Breadcrumbs, Typography } from "@mui/material";
 import { Menu } from "../types";
@@ -12,8 +13,9 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const menu: Menu[] = [
   { label: "Books", path: "books", icon: <MenuBookIcon /> },
-  { label: "Borrowed", path: "borrowed", icon: <BookIcon /> },
-  { label: "History", path: "history", icon: <AssignmentRoundedIcon /> },
+  { label: "Issue", path: "issue", icon: <BookIcon /> },
+  { label: "Return", path: "return", icon: <AssignmentRoundedIcon /> },
+  { label: "History", path: "history", icon: <HistoryIcon /> },
 ];
 export const Librarian = () => {
   const [selectedMenu, setSelectedMenu] = useState<Menu>();
@@ -74,7 +76,7 @@ export const Librarian = () => {
                   separator={<NavigateNextIcon fontSize="small" />}
                   aria-label="breadcrumb"
                 >
-                  <Typography>Student</Typography>
+                  <Typography>Librarian</Typography>
                   <Typography>{selectedMenu && selectedMenu.label}</Typography>
                 </Breadcrumbs>
               </Box>

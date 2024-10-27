@@ -5,6 +5,7 @@ import { Books, History, Toast } from "./components";
 import { useAtom } from "jotai";
 import { toastOptionsAtom } from "./store";
 import { Borrowed } from "./components/borrowed";
+import { LibrarianBooks } from "./components/librarian-books";
 
 function App() {
   const [toastOptions, setToastOptions] = useAtom(toastOptionsAtom);
@@ -22,7 +23,14 @@ function App() {
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/librarian" element={<Librarian />} />
+          <Route path="/librarian" element={<Librarian />}>
+            <Route index element={<Navigate to={"books"} />} />
+            <Route path="books" element={<LibrarianBooks />} />
+            <Route path="issue" element={<Borrowed />} />
+            <Route path="return" element={<Borrowed />} />
+            <Route path="history" element={<History />} />
+            <Route path="*" element={<Error />} />
+          </Route>
           <Route path="/student" element={<Student />}>
             <Route index element={<Navigate to={"books"} />} />
             <Route path="books" element={<Books />} />
