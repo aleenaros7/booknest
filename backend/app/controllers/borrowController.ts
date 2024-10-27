@@ -49,3 +49,28 @@ export const requestBook = async (req: Request, res: Response) => {
     return ResponseHelper.handleError(res, "Requesting book failed");
   }
 };
+
+export const fetchBorrowingInformation = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const user: IUser = res.locals.user;
+    const borrowings = await Borrowing.find({ userId: user.userId }).lean();
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Borrowing information fetched successfully",
+      {
+        borrowingInfo: borrowings,
+      },
+      StatusCodes.CREATED
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(
+      res,
+      "Failed to fetch borrowing information"
+    );
+  }
+};

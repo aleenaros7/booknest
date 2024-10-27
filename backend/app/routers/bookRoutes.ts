@@ -12,7 +12,10 @@ import {
 } from "app/controllers/bookController";
 import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
-import { requestBook } from "app/controllers/borrowController";
+import {
+  fetchBorrowingInformation,
+  requestBook,
+} from "app/controllers/borrowController";
 
 const bookRouter: Router = express.Router();
 
@@ -40,5 +43,7 @@ bookRouter.post(
   validateRequest(borrowRequestSchema),
   requestBook
 );
+
+bookRouter.get("/borrow-info", verifyToken, fetchBorrowingInformation);
 
 export { bookRouter };
