@@ -1,7 +1,7 @@
 import express, { type Router } from "express";
 import { validateRequest } from "app/middlewares/validator";
 import { bulkCreateBooksSchema, createBookSchema } from "app/schemas";
-import { bulkCreateBooks, createBook } from "app/controllers/bookController";
+import { bulkCreateBooks, createBook, fetchBooks } from "app/controllers/bookController";
 import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
 
@@ -21,6 +21,12 @@ bookRouter.post(
   verifyLibrarian,
   validateRequest(bulkCreateBooksSchema),
   bulkCreateBooks
+);
+
+bookRouter.get(
+  "/",
+  verifyToken,
+  fetchBooks
 );
 
 export { bookRouter };

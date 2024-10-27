@@ -19,6 +19,7 @@ export const createBook = async (req: Request, res: Response) => {
     ResponseHelper.handleSuccess(
       res,
       "Book successfully created",
+      undefined,
       StatusCodes.CREATED
     );
   } catch (error) {
@@ -35,10 +36,27 @@ export const bulkCreateBooks = async (req: Request, res: Response) => {
     ResponseHelper.handleSuccess(
       res,
       "Books successfully created",
+      undefined,
       StatusCodes.CREATED
     );
   } catch (error) {
     console.log(error);
     return ResponseHelper.handleError(res, "Creating books failed");
+  }
+};
+
+export const fetchBooks = async (req: Request, res: Response) => {
+  try {
+    const books = await Book.find().lean();
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Books successfully fetched",
+      { books },
+      StatusCodes.CREATED
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Fetching books failed");
   }
 };
