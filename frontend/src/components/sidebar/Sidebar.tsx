@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {
+  Button,
   List,
   ListItem,
   ListItemButton,
@@ -110,6 +111,12 @@ export const Sidebar = ({ menu }: { menu: Menu[] }) => {
           </Typography>
         </Box>
       </Stack>
+      <Divider />
+      <Box sx={{ px: 1, py: 2, display: "flex", justifyContent: "center" }}>
+        <Button variant="contained" sx={{ width: "100%" }}>
+          Logout
+        </Button>
+      </Box>
     </Drawer>
   );
 };
