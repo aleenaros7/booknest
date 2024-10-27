@@ -16,7 +16,9 @@ import {
 
 import { Menu } from "../../types";
 import { useAtom } from "jotai";
-import { userAtom } from "../../store";
+import { storage, userAtom } from "../../store";
+import { useNavigate } from "react-router-dom";
+import { SESSION_STORAGE_USER_KEY } from "../../constants";
 
 const drawerWidth = 240;
 
@@ -40,7 +42,14 @@ export const Sidebar = ({
   selectedMenu?: Menu;
   handleChange: (menu: Menu) => void;
 }) => {
-  const [user] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    setUser(null);
+    storage.removeItem(SESSION_STORAGE_USER_KEY);
+    navigate("/sign-in");
+  };
 
   return (
     <Drawer
@@ -120,7 +129,11 @@ export const Sidebar = ({
       </Stack>
       <Divider />
       <Box sx={{ px: 1, py: 2, display: "flex", justifyContent: "center" }}>
-        <Button variant="contained" sx={{ width: "100%" }}>
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={handleLogOut}
+        >
           Logout
         </Button>
       </Box>
