@@ -31,7 +31,7 @@ export type ApiResponse<T> = {
   statusCode: number;
 };
 
-export type Menu = { label: string; icon: JSX.Element };
+export type Menu = { label: string; icon: JSX.Element; path: string };
 
 export type DropdownItem = {
   value: number | string | undefined;

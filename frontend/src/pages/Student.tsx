@@ -5,21 +5,36 @@ import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import BookIcon from "@mui/icons-material/Book";
-import { Books, Sidebar } from "../components";
+import { Sidebar } from "../components";
 import { Breadcrumbs, Typography } from "@mui/material";
 import { Menu } from "../types";
-import { useState } from "react";
-import { Borrowed } from "../components/borrowed";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const menu: Menu[] = [
-  { label: "Books", icon: <MenuBookIcon /> },
-  { label: "Borrowed", icon: <BookIcon /> },
-  { label: "History", icon: <AssignmentRoundedIcon /> },
-  { label: "Notifications", icon: <NotificationsActiveIcon /> },
+  { label: "Books", path: "books", icon: <MenuBookIcon /> },
+  { label: "Borrowed", path: "borrowed", icon: <BookIcon /> },
+  { label: "History", path: "history", icon: <AssignmentRoundedIcon /> },
+  {
+    label: "Notifications",
+    path: "notifications",
+    icon: <NotificationsActiveIcon />,
+  },
 ];
 
 export const Student = () => {
   const [selectedMenu, setSelectedMenu] = useState(menu[0]);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const currentPath = location.pathname.split("/").pop();
+    const matchedMenu = menu.find((item) => item.path === currentPath);
+
+    if (matchedMenu) {
+      setSelectedMenu(matchedMenu);
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -28,6 +43,7 @@ export const Student = () => {
           menu={menu}
           handleChange={(menu: Menu) => {
             setSelectedMenu(menu);
+            navigate(menu.path);
           }}
         />
         <Box
@@ -69,13 +85,7 @@ export const Student = () => {
               </Box>
             </Box>
             <Box sx={{ height: "100%", width: "100%" }}>
-              {selectedMenu.label === "Books" ? (
-                <Books />
-              ) : selectedMenu.label === "Borrowed" ? (
-                <Borrowed />
-              ) : (
-                <div style={{ color: "black" }}>Bsdfasf</div>
-              )}
+              <Outlet />
             </Box>
           </Stack>
         </Box>
