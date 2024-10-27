@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Error, Librarian, SignIn, SignUp, Student } from "./pages";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Books, Toast } from "./components";
+import { Books, History, Toast } from "./components";
 import { useAtom } from "jotai";
 import { toastOptionsAtom } from "./store";
 import { Borrowed } from "./components/borrowed";
@@ -27,6 +27,7 @@ function App() {
             <Route index element={<Navigate to={"books"} />} />
             <Route path="books" element={<Books />} />
             <Route path="borrowed" element={<Borrowed />} />
+            <Route path="history" element={<History />} />
             <Route path="*" element={<Error />} />
           </Route>
           <Route path="/" element={<Navigate to={"/sign-in"} />} />

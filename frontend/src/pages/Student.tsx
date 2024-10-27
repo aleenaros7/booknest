@@ -23,7 +23,7 @@ const menu: Menu[] = [
 ];
 
 export const Student = () => {
-  const [selectedMenu, setSelectedMenu] = useState(menu[0]);
+  const [selectedMenu, setSelectedMenu] = useState<Menu>();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ export const Student = () => {
     const currentPath = location.pathname.split("/").pop();
     const matchedMenu = menu.find((item) => item.path === currentPath);
 
+    console.log(matchedMenu);
     if (matchedMenu) {
       setSelectedMenu(matchedMenu);
     }
@@ -41,6 +42,7 @@ export const Student = () => {
       <Box sx={{ display: "flex" }}>
         <Sidebar
           menu={menu}
+          selectedMenu={selectedMenu}
           handleChange={(menu: Menu) => {
             setSelectedMenu(menu);
             navigate(menu.path);
@@ -80,7 +82,7 @@ export const Student = () => {
                   aria-label="breadcrumb"
                 >
                   <Typography>Student</Typography>
-                  <Typography>{selectedMenu.label}</Typography>
+                  <Typography>{selectedMenu && selectedMenu.label}</Typography>
                 </Breadcrumbs>
               </Box>
             </Box>

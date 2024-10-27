@@ -17,7 +17,6 @@ import {
 import { Menu } from "../../types";
 import { useAtom } from "jotai";
 import { userAtom } from "../../store";
-import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -34,12 +33,13 @@ const Drawer = styled(MuiDrawer)({
 
 export const Sidebar = ({
   menu,
+  selectedMenu,
   handleChange,
 }: {
   menu: Menu[];
+  selectedMenu?: Menu;
   handleChange: (menu: Menu) => void;
 }) => {
-  const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
   const [user] = useAtom(userAtom);
 
   return (
@@ -78,9 +78,8 @@ export const Sidebar = ({
           {menu.map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
-                selected={index === selectedMenuIndex}
+                selected={selectedMenu && item.label === selectedMenu.label}
                 onClick={() => {
-                  setSelectedMenuIndex(index);
                   handleChange(item);
                 }}
               >

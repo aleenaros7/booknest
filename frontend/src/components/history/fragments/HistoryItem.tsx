@@ -1,63 +1,74 @@
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
+import { Divider } from "@mui/material";
 
 export const HistoryItem = () => {
-  const theme = useTheme();
-
   return (
-    <Card sx={{ display: "flex", width: "100%", maxHeight: "150px" }}>
+    <Card
+      sx={{
+        display: "flex",
+        width: "100%",
+        maxHeight: "90px",
+        boxShadow: "0px 0px 14px 0px #00000040",
+      }}
+    >
       <CardMedia
         component="img"
         sx={{
-          width: 151,
+          width: 80,
           objectFit: "contain",
           display: "flex",
           justifyContent: "flex-start",
-          objectPosition: "left"
+          objectPosition: "left",
         }}
         image="https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
         alt="Book"
       />
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
-            Live From Space
+      <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+        <CardContent sx={{ width: "300px" }}>
+          <Typography component="div" variant="body1">
+            Soul
           </Typography>
           <Typography
-            variant="subtitle1"
+            variant="body2"
             component="div"
-            sx={{ color: "text.secondary" }}
+            sx={{ color: "text.secondary", width: "100%" }}
           >
-            Mac Miller
+            Stephen Hawking
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton aria-label="previous">
-            {theme.direction === "rtl" ? (
-              <SkipNextIcon />
-            ) : (
-              <SkipPreviousIcon />
-            )}
-          </IconButton>
-          <IconButton aria-label="play/pause">
-            <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-          </IconButton>
-          <IconButton aria-label="next">
-            {theme.direction === "rtl" ? (
-              <SkipPreviousIcon />
-            ) : (
-              <SkipNextIcon />
-            )}
-          </IconButton>
+        <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+          <Divider orientation="vertical" flexItem />
+          <CardContent sx={{ px: 6 }}>
+            <Typography component="div" variant="caption">
+              Issued On
+            </Typography>
+            <Typography
+              variant="caption"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              14/03/2000
+            </Typography>
+          </CardContent>
+          <Divider orientation="vertical" flexItem />
+          <CardContent sx={{ px: 6 }}>
+            <Typography component="div" variant="caption">
+              Returned On
+            </Typography>
+            <Typography
+              variant="caption"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              15/03/2000
+            </Typography>
+          </CardContent>
         </Box>
+        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}></Box>
       </Box>
     </Card>
   );
