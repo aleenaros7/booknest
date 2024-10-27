@@ -1,6 +1,6 @@
 import express, { type Router } from "express";
 import { validateRequest } from "app/middlewares/validator";
-import { signInUserSchema, signUpUserSchema } from "app/schema";
+import { signInUserSchema, signUpUserSchema } from "app/schemas";
 import { signInUser, signUpUser } from "app/controllers/authController";
 
 const authRouter: Router = express.Router();

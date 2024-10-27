@@ -11,5 +11,17 @@ export type Token = {
 export type Cookie = {
   name: string;
   value: string;
-  options: CookieOptions
+  options: CookieOptions;
+};
+
+export enum Genre {
+  Fiction = "fiction",
+  NonFiction = "non-fiction",
+  Mystery = "mystery",
+  Thriller = "thriller",
+  Romance = "romance",
+  ScienceFiction = "science-fiction",
+  Fantasy = "fantasy",
+  Biography = "biography",
+  History = "history",
 }

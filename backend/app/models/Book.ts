@@ -1,3 +1,4 @@
+import { Genre } from "app/types";
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
@@ -7,9 +8,9 @@ export interface IBook {
   bookId: string;
   title: string;
   author: string;
-  genre: string;
-  publishedYear?: number;
-  availableCopies: number;
+  description: string;
+  logo: string;
+  genre: Genre;
   totalCopies: number;
 }
 
@@ -22,10 +23,10 @@ const BookSchema = new Schema<IBook>(
     },
     title: { type: String, required: true },
     author: { type: String, required: true },
+    description: { type: String, required: true },
+    logo: { type: String, required: true },
     genre: { type: String, required: true },
-    publishedYear: { type: Number },
-    availableCopies: { type: Number, default: 1 },
-    totalCopies: { type: Number, required: true },
+    totalCopies: { type: Number, default: 1 },
   },
   { timestamps: true }
 );

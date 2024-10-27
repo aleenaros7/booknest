@@ -1,0 +1,218 @@
+[
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "description": "A novel about racial injustice in the Deep South.",
+    "logo": "https://media.glamour.com/photos/56e1f3c462b398fa64cbd304/master/w_1600%2Cc_limit/entertainment-2016-02-18-main.jpg",
+    "genre": "fiction",
+    "totalCopies": 10
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "description": "A dystopian novel set in a totalitarian society.",
+    "logo": "https://m.media-amazon.com/images/I/61ZewDE3beL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "fiction",
+    "totalCopies": 8
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "description": "A romantic novel about manners and matrimony.",
+    "logo": "https://m.media-amazon.com/images/I/716PtecEFOL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "fiction",
+    "totalCopies": 12
+  },
+  {
+    "title": "Sapiens: A Brief History of Humankind",
+    "author": "Yuval Noah Harari",
+    "description": "An exploration of human history and evolution.",
+    "logo": "https://m.media-amazon.com/images/I/712Uo++xK2L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "non-fiction",
+    "totalCopies": 15
+  },
+  {
+    "title": "Educated",
+    "author": "Tara Westover",
+    "description": "A memoir of a woman’s journey from isolation to education.",
+    "logo": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1506026635i/35133922.jpg",
+    "genre": "non-fiction",
+    "totalCopies": 9
+  },
+  {
+    "title": "Becoming",
+    "author": "Michelle Obama",
+    "description": "The former First Lady's memoir about her life and career.",
+    "logo": "https://m.media-amazon.com/images/I/81KGjsBXQ7L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "non-fiction",
+    "totalCopies": 14
+  },
+  {
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "description": "A thriller about a woman's mysterious disappearance.",
+    "logo": "https://m.media-amazon.com/images/I/713e4Yk6brL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "mystery",
+    "totalCopies": 11
+  },
+  {
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "description": "A crime thriller featuring a journalist and a hacker.",
+    "logo": "https://m.media-amazon.com/images/I/71-ICZM7B4L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "mystery",
+    "totalCopies": 13
+  },
+  {
+    "title": "Big Little Lies",
+    "author": "Liane Moriarty",
+    "description": "A mystery about secrets and lies in a small community.",
+    "logo": "https://m.media-amazon.com/images/I/81N+sjNpGML._AC_UF1000,1000_QL80_.jpg",
+    "genre": "mystery",
+    "totalCopies": 10
+  },
+  {
+    "title": "The Girl on the Train",
+    "author": "Paula Hawkins",
+    "description": "A thriller about a woman's investigation into a disappearance.",
+    "logo": "https://m.media-amazon.com/images/I/71vWnStCnEL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "thriller",
+    "totalCopies": 10
+  },
+  {
+    "title": "The Silence of the Lambs",
+    "author": "Thomas Harris",
+    "description": "A psychological thriller featuring a cannibalistic serial killer.",
+    "logo": "https://m.media-amazon.com/images/I/814fRILnbnL.jpg",
+    "genre": "thriller",
+    "totalCopies": 8
+  },
+  {
+    "title": "Shutter Island",
+    "author": "Dennis Lehane",
+    "description": "A thriller set in a mental institution with a dark secret.",
+    "logo": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1329269081i/21686.jpg",
+    "genre": "thriller",
+    "totalCopies": 12
+  },
+  {
+    "title": "The Fault in Our Stars",
+    "author": "John Green",
+    "description": "A poignant love story about two teenagers with cancer who fall in love and navigate the challenges of life and illness.",
+    "logo": "https://m.media-amazon.com/images/I/817tHNcyAgL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "romance",
+    "totalCopies": 10
+  },
+  {
+    "title": "The Notebook",
+    "author": "Nicholas Sparks",
+    "description": "A love story spanning decades about true love and loss.",
+    "logo": "https://m.media-amazon.com/images/I/71rzGw1-HAL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "romance",
+    "totalCopies": 9
+  },
+  {
+    "title": "Me Before You",
+    "author": "Jojo Moyes",
+    "description": "A romance about two people who change each other's lives.",
+    "logo": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1665087720i/17347634.jpg",
+    "genre": "romance",
+    "totalCopies": 11
+  },
+  {
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "description": "A science fiction novel set in a distant future amidst a huge interstellar empire.",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD3W7sNidiZiEmcK5XoxY_2ChpNROwqTHr-Q&s",
+    "genre": "science-fiction",
+    "totalCopies": 10
+  },
+  {
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "description": "A science fiction novel that helped define the cyberpunk genre.",
+    "logo": "https://tgbc-images.s3.ap-southeast-2.amazonaws.com/5edb5d64b23ac080895835.jpg",
+    "genre": "science-fiction",
+    "totalCopies": 8
+  },
+  {
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "description": "A gripping tale of survival on Mars, mixing science and humor.",
+    "logo": "https://m.media-amazon.com/images/I/51QimqeXMXL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "science-fiction",
+    "totalCopies": 12
+  },
+  {
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "description": "A fantasy adventure about the journey of Bilbo Baggins.",
+    "logo": "https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "fantasy",
+    "totalCopies": 15
+  },
+  {
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "description": "The first book in the beloved series about a young wizard.",
+    "logo": "https://m.media-amazon.com/images/I/71XqqKTZz7L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "fantasy",
+    "totalCopies": 20
+  },
+  {
+    "title": "A Game of Thrones",
+    "author": "George R.R. Martin",
+    "description": "The first book in the epic fantasy series 'A Song of Ice and Fire'.",
+    "logo": "https://sm.ign.com/t/ign_za/gallery/a/a-song-of-/a-song-of-ice-and-fire-2024-box-set_2pb2.600.jpg",
+    "genre": "fantasy",
+    "totalCopies": 18
+  },
+  {
+    "title": "The Diary of a Young Girl",
+    "author": "Anne Frank",
+    "description": "The poignant diary of a Jewish girl hiding from the Nazis.",
+    "logo": "https://www.jaicobooks.com/wp-content/uploads/2023/06/J-3112.jpg",
+    "genre": "biography",
+    "totalCopies": 10
+  },
+  {
+    "title": "Long Walk to Freedom",
+    "author": "Nelson Mandela",
+    "description": "The autobiography of South Africa's first black president.",
+    "logo": "https://m.media-amazon.com/images/I/91jMa+ndqrL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "biography",
+    "totalCopies": 8
+  },
+  {
+    "title": "Steve Jobs",
+    "author": "Walter Isaacson",
+    "description": "A biography of the co-founder of Apple Inc., exploring his life, career, and innovations.",
+    "logo": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1511288482i/11084145.jpg",
+    "genre": "biography",
+    "totalCopies": 12
+  },
+  {
+    "title": "The History of the Ancient World",
+    "author": "Susan Wise Bauer",
+    "description": "An overview of ancient civilizations from the earliest times.",
+    "logo": "https://m.media-amazon.com/images/I/71OXQZezcnL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "history",
+    "totalCopies": 12
+  },
+  {
+    "title": "Guns, Germs, and Steel",
+    "author": "Jared Diamond",
+    "description": "A theory about the development of human societies.",
+    "logo": "https://m.media-amazon.com/images/I/61eZREdzp9L._AC_UF1000,1000_QL80_.jpg",
+    "genre": "history",
+    "totalCopies": 9
+  },
+  {
+    "title": "The History of the World",
+    "author": "J.M. Roberts",
+    "description": "A comprehensive history of the world from ancient to modern times.",
+    "logo": "https://m.media-amazon.com/images/I/51wrRdCtzqL._AC_UF1000,1000_QL80_.jpg",
+    "genre": "history",
+    "totalCopies": 11
+  }
+]
