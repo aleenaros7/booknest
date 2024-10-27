@@ -13,10 +13,10 @@ import { Book } from "../../../types";
 
 export const LibrarianBookItem = ({
   book,
-  handleRequest,
+  handleUpdate,
 }: {
   book: Book;
-  handleRequest: (bookId: string) => void;
+  handleUpdate: (book: Book) => void;
 }) => {
   return (
     <Card sx={{ boxShadow: "0px 0px 14px 0px #00000040", height: "400px" }}>
@@ -68,7 +68,7 @@ export const LibrarianBookItem = ({
             variant="contained"
             fullWidth
             onClick={() => {
-              handleRequest(book.bookId);
+              handleUpdate(book);
             }}
           >
             Update

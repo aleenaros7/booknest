@@ -5,7 +5,11 @@ import {
   Grid2 as Grid,
   Typography,
 } from "@mui/material";
-import { LibrarianBookItem } from "./fragments";
+import {
+  CreateBookDialog,
+  CreateBookDialog as EditBookDialog,
+  LibrarianBookItem,
+} from "./fragments";
 import { Book, DropdownItem } from "../../types";
 import { useEffect, useState } from "react";
 import { SelectBox } from "../select-box";
@@ -17,8 +21,6 @@ import {
 } from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
-import { Dialog } from "../dialog";
-import { TextField } from "../text-field";
 import { useValidateForm } from "../../hooks";
 import { createBookSchema } from "../../validations";
 
@@ -37,6 +39,8 @@ const dropdown: DropdownItem[] = [
 
 export const LibrarianBooks = () => {
   const [openCreateBookDialog, setOpenCreateBookDialog] = useState(false);
+  const [openEditBookDialog, setOpenEditBookDialog] = useState(false);
+  const [bookDefaultValues, setBookDefaultValues] = useState<Book>();
   const [genre, setGenre] = useState("all");
   const [books, setBooks] = useState<Book[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
@@ -117,13 +121,22 @@ export const LibrarianBooks = () => {
     createBookMutation.error,
   ]);
 
-  const handleRequestBook = (bookId: string) => {
-    sendBorrowRequestMutation.mutate({ bookId });
+  const handleUpdateBook = (book: Book) => {
+    // sendBorrowRequestMutation.mutate({ bookId });
+    setBookDefaultValues(book);
+    setOpenEditBookDialog(true);
   };
 
   const handleCreateBook = ({ totalCopies, ...data }: any) => {
     setOpenCreateBookDialog(false);
     createBookMutation.mutate({ ...data, totalCopies: Number(totalCopies) });
+  };
+
+  const handleEditBook = ({ totalCopies, ...data }: any) => {
+    setOpenEditBookDialog(false);
+    // createBookMutation.mutate({ ...data, totalCopies: Number(totalCopies) });
+
+    console.log({ ...data, totalCopies: Number(totalCopies) });
   };
 
   return (
@@ -205,7 +218,7 @@ export const LibrarianBooks = () => {
                   <Grid size={3} sx={{ p: 2 }} key={index}>
                     <LibrarianBookItem
                       book={book}
-                      handleRequest={handleRequestBook}
+                      handleUpdate={handleUpdateBook}
                     />
                   </Grid>
                 ))}
@@ -213,131 +226,25 @@ export const LibrarianBooks = () => {
           </Box>
         </>
       )}
-
-      <Dialog
+      <CreateBookDialog
         title={"Add Book"}
-        open={openCreateBookDialog}
-        setOpen={setOpenCreateBookDialog}
-        form="createBookForm"
-      >
-        <Box
-          component={"form"}
-          id="createBookForm"
-          onSubmit={handleSubmit(handleCreateBook)}
-          sx={{
-            minWidth: "500px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-          }}
-        >
-          <TextField
-            label={"Title"}
-            name={"title"}
-            register={register}
-            error={errors["title"]}
-            fullWidth
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": {
-                padding: "0.6rem",
-                fontSize: "0.875rem !important",
-              },
-            }}
-            labelSx={{
-              fontSize: "14px",
-              color: "#00000099",
-              fontWeight: 400,
-            }}
-          />
-          <TextField
-            label={"Author"}
-            name={"author"}
-            register={register}
-            error={errors["author"]}
-            fullWidth
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": {
-                padding: "0.6rem",
-                fontSize: "0.875rem !important",
-              },
-            }}
-            labelSx={{
-              fontSize: "14px",
-              color: "#00000099",
-              fontWeight: 400,
-            }}
-          />
-          <TextField
-            label={"Description"}
-            name={"description"}
-            register={register}
-            error={errors["description"]}
-            fullWidth
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": {
-                padding: "0.6rem",
-                fontSize: "0.875rem !important",
-              },
-            }}
-            labelSx={{
-              fontSize: "14px",
-              color: "#00000099",
-              fontWeight: 400,
-            }}
-          />
-          <TextField
-            label={"Logo URL"}
-            name={"logo"}
-            register={register}
-            error={errors["logo"]}
-            fullWidth
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": {
-                padding: "0.6rem",
-                fontSize: "0.875rem !important",
-              },
-            }}
-            labelSx={{
-              fontSize: "14px",
-              color: "#00000099",
-              fontWeight: 400,
-            }}
-          />
-          <SelectBox
-            fullWidth
-            label="Genre"
-            name="genre"
-            dropdown={dropdown}
-            register={register}
-            error={errors["genre"]}
-          />
-          <TextField
-            type="number"
-            label={"Total Copies"}
-            name={"totalCopies"}
-            register={register}
-            error={errors["totalCopies"]}
-            fullWidth
-            spinBtn={true}
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": {
-                padding: "0.6rem",
-                fontSize: "0.875rem !important",
-              },
-            }}
-            labelSx={{
-              fontSize: "14px",
-              color: "#00000099",
-              fontWeight: 400,
-            }}
-          />
-        </Box>
-      </Dialog>
+        openDialog={openCreateBookDialog}
+        errors={errors}
+        setOpenDialog={setOpenCreateBookDialog}
+        handleClickSubmit={handleCreateBook}
+        handleSubmit={handleSubmit}
+        register={register}
+      />
+      <EditBookDialog
+        title={"Edit Book"}
+        defaultValues={bookDefaultValues}
+        openDialog={openEditBookDialog}
+        errors={errors}
+        setOpenDialog={setOpenEditBookDialog}
+        handleClickSubmit={handleEditBook}
+        handleSubmit={handleSubmit}
+        register={register}
+      />
     </>
   );
 };
