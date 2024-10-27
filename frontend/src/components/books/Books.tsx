@@ -3,19 +3,21 @@ import { BookItem } from "./fragments";
 import { DropdownItem } from "../../types";
 import { useState } from "react";
 import { SelectBox } from "../select-box";
+import { Genre } from "../../enums";
 
 const dropdown: DropdownItem[] = [
   { key: "All", value: "all" },
-  { key: "Fiction", value: "fiction" },
-  { key: "Non-Fiction", value: "non-fiction" },
-  { key: "Mystery", value: "mystery" },
-  { key: "Thriller", value: "thriller" },
-  { key: "Romance", value: "romance" },
-  { key: "Science Fiction", value: "science-fiction" },
-  { key: "Fantasy", value: "fantasy" },
-  { key: "Biography", value: "biography" },
-  { key: "History", value: "history" },
+  { key: "Fiction", value: Genre.Fiction },
+  { key: "Non-Fiction", value: Genre.NonFiction },
+  { key: "Mystery", value: Genre.Mystery },
+  { key: "Thriller", value: Genre.Thriller },
+  { key: "Romance", value: Genre.Romance },
+  { key: "Science Fiction", value: Genre.ScienceFiction },
+  { key: "Fantasy", value: Genre.Fantasy },
+  { key: "Biography", value: Genre.Biography },
+  { key: "History", value: Genre.History },
 ];
+
 export const Books = () => {
   const [genre, setGenre] = useState("all");
   return (
