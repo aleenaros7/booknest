@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -15,11 +14,6 @@ const menu: Menu[] = [
   { label: "Books", path: "books", icon: <MenuBookIcon /> },
   { label: "Borrowed", path: "borrowed", icon: <BookIcon /> },
   { label: "History", path: "history", icon: <AssignmentRoundedIcon /> },
-  {
-    label: "Notifications",
-    path: "notifications",
-    icon: <NotificationsActiveIcon />,
-  },
 ];
 
 export const Student = () => {

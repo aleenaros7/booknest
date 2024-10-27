@@ -84,3 +84,34 @@ export const fetchBorrowingInformation = async (
     );
   }
 };
+
+export const fetchBorrowingHistory = async (req: Request, res: Response) => {
+  try {
+    const user: IUser = res.locals.user;
+    const books = await Book.find().lean();
+    let borrowings = await Borrowing.find({
+      userId: user.userId,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    borrowings = borrowings.map((item) => {
+      return {
+        ...item,
+        bookInfo: books.find((e) => e.bookId === item.bookId),
+      };
+    });
+
+    ResponseHelper.handleSuccess(
+      res,
+      "History fetched successfully",
+      {
+        borrowHistory: borrowings,
+      },
+      StatusCodes.OK
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Failed to fetch History");
+  }
+};

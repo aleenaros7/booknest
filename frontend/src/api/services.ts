@@ -33,7 +33,7 @@ export const useSignInMutation = () => {
 
 export const useSignUpMutation = () => {
   const mutation = useMutation<
-    User,
+    unknown,
     AxiosError<ApiResponse<any>>,
     { userName: string; password: string; fullName: string; email: string },
     unknown
@@ -85,7 +85,9 @@ export const useFetchBorrowInfoQuery = (
   const fetchBorrowInfo = async (): Promise<BorrowInfo[]> => {
     const path = config.api.books.fetchBorrowInfo;
 
-    const response = await client.get<ApiResponse<{ borrowInfo: BorrowInfo[] }>>(path);
+    const response = await client.get<
+      ApiResponse<{ borrowInfo: BorrowInfo[] }>
+    >(path);
 
     return response.data.data.borrowInfo;
   };
@@ -94,4 +96,38 @@ export const useFetchBorrowInfoQuery = (
     ...queryOptions,
     ...DEFAULT_QUERY_OPTIONS,
   });
+};
+
+export const useFetchHistoryQuery = (queryOptions?: QueryOptions<string>) => {
+  const fetchBorrowHistory = async (): Promise<BorrowInfo[]> => {
+    const path = config.api.books.fetchBorrowHistory;
+
+    const response = await client.get<
+      ApiResponse<{ borrowHistory: BorrowInfo[] }>
+    >(path);
+
+    return response.data.data.borrowHistory;
+  };
+
+  return useQuery(["fetchBorrowHistory"], fetchBorrowHistory, {
+    ...queryOptions,
+    ...DEFAULT_QUERY_OPTIONS,
+  });
+};
+
+export const useSendBorrowRequestMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    { bookId: string },
+    unknown
+  >(async (data: { bookId: string }): Promise<any> => {
+    const { bookId } = data;
+    const path = config.api.books.sendBorrowRequest.replace(":bookId", bookId);
+
+    const response = await client.post(path);
+    return response.data;
+  });
+
+  return mutation;
 };

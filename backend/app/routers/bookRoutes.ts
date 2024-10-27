@@ -13,6 +13,7 @@ import {
 import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
 import {
+  fetchBorrowingHistory,
   fetchBorrowingInformation,
   requestBook,
 } from "app/controllers/borrowController";
@@ -45,5 +46,6 @@ bookRouter.post(
 );
 
 bookRouter.get("/borrow-info", verifyToken, fetchBorrowingInformation);
+bookRouter.get("/borrow-history", verifyToken, fetchBorrowingHistory);
 
 export { bookRouter };
