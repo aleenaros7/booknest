@@ -8,11 +8,12 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import { Badge, Button } from "@mui/material";
+import { Badge, Box, Button } from "@mui/material";
+import { Book } from "../../../types";
 
-export const BookItem = () => {
+export const BookItem = ({ book }: { book: Book }) => {
   return (
-    <Card sx={{ boxShadow: "0px 0px 14px 0px #00000040" }}>
+    <Card sx={{ boxShadow: "0px 0px 14px 0px #00000040", height: "400px" }}>
       <CardHeader
         avatar={
           <Avatar
@@ -25,41 +26,45 @@ export const BookItem = () => {
         }
         action={
           <IconButton aria-label="settings">
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={book.totalCopies} color="error">
               <LibraryBooksIcon />
             </Badge>
           </IconButton>
         }
-        title="Soul"
-        subheader="Stephen Hawking"
+        title={
+          book.title.length > 24 ? `${book.title.slice(0, 24)}...` : book.title
+        }
+        subheader={book.author}
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg"
-        alt="Paella dish"
+        image={book.logo}
+        alt={book.title}
         sx={{
           objectFit: "contain",
         }}
       />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ px: 2, pb: 2 }}>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
-        <Button variant="contained" fullWidth>
-          Borrow
-        </Button>
-      </CardActions>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+        }}
+      >
+        <CardContent sx={{ minHeight: "40px" }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {book.description.length > 85
+              ? `${book.description.slice(0, 85)}...`
+              : book.description}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ px: 2, pb: 2 }}>
+          <Button variant="contained" fullWidth>
+            Borrow
+          </Button>
+        </CardActions>
+      </Box>
     </Card>
   );
 };

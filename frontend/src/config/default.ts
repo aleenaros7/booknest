@@ -6,7 +6,9 @@ export const config = {
       signIn: "/auth/sign-in",
       signUp: "/auth/sign-up",
     },
-    books: {},
+    books: {
+      fetchBooks: "/books/"
+    },
     librarian: {},
   },
 };

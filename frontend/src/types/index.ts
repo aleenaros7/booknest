@@ -1,5 +1,5 @@
 import { UseQueryOptions } from "react-query";
-import { Role } from "../enums";
+import { Genre, Role } from "../enums";
 
 export type User = {
   userId: string;
@@ -37,3 +37,13 @@ export type DropdownItem = {
   value: number | string | undefined;
   key: string;
 };
+
+export type Book = {
+  bookId: string;
+  title: string;
+  author: string;
+  description: string;
+  logo: string;
+  genre: Genre;
+  totalCopies: number;
+}
