@@ -1,9 +1,18 @@
 import express, { type Router } from "express";
 import { validateRequest } from "app/middlewares/validator";
-import { bulkCreateBooksSchema, createBookSchema } from "app/schemas";
-import { bulkCreateBooks, createBook, fetchBooks } from "app/controllers/bookController";
+import {
+  borrowRequestSchema,
+  bulkCreateBooksSchema,
+  createBookSchema,
+} from "app/schemas";
+import {
+  bulkCreateBooks,
+  createBook,
+  fetchBooks,
+} from "app/controllers/bookController";
 import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
+import { requestBook } from "app/controllers/borrowController";
 
 const bookRouter: Router = express.Router();
 
@@ -23,10 +32,13 @@ bookRouter.post(
   bulkCreateBooks
 );
 
-bookRouter.get(
-  "/",
+bookRouter.get("/", verifyToken, fetchBooks);
+
+bookRouter.post(
+  "/:bookId/borrow-request",
   verifyToken,
-  fetchBooks
+  validateRequest(borrowRequestSchema),
+  requestBook
 );
 
 export { bookRouter };
