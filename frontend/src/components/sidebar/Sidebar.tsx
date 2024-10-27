@@ -42,6 +42,7 @@ export const Sidebar = ({ menu }: { menu: Menu[] }) => {
       sx={{
         [`& .${drawerClasses.paper}`]: {
           backgroundColor: "background.paper",
+          boxShadow: "0px 0px 14px 0px #00000040",
         },
       }}
     >
@@ -87,7 +88,7 @@ export const Sidebar = ({ menu }: { menu: Menu[] }) => {
         direction="row"
         sx={{
           p: 2,
-          gap: 1,
+          gap: 1.5,
           alignItems: "center",
           borderTop: "1px solid",
           borderColor: "divider",
@@ -95,8 +96,8 @@ export const Sidebar = ({ menu }: { menu: Menu[] }) => {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
+          alt={user?.fullName}
+          src="avatar.png"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>

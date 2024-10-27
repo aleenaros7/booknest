@@ -5,6 +5,7 @@ import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import { Sidebar } from "../components";
+import { Typography } from "@mui/material";
 
 const menu = [
   { label: "Home", icon: <HomeRoundedIcon /> },
@@ -19,10 +20,9 @@ export const Student = () => {
       <Box sx={{ display: "flex" }}>
         <Sidebar menu={menu} />
         <Box
-          component="main"
           sx={{
+            height: "100vh",
             flexGrow: 1,
-            backgroundColor: "red",
             overflow: "auto",
           }}
         >
@@ -35,7 +35,9 @@ export const Student = () => {
               mt: { xs: 8, md: 0 },
             }}
           >
-            {/* <MainGrid /> */}
+            <Box sx={{ height: "100%" }}>
+              <Typography>Hello da</Typography>
+            </Box>
           </Stack>
         </Box>
       </Box>
