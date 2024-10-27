@@ -53,7 +53,7 @@ export const fetchBooks = async (req: Request, res: Response) => {
       res,
       "Books successfully fetched",
       { books },
-      StatusCodes.CREATED
+      StatusCodes.OK
     );
   } catch (error) {
     console.log(error);

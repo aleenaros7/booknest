@@ -11,8 +11,6 @@ export const requestBook = async (req: Request, res: Response) => {
     const { bookId } = req.params;
     const book = await Book.findOne({ bookId }).lean();
 
-    console.log(book);
-
     if (!book) {
       return ResponseHelper.handleError(
         res,
@@ -56,7 +54,15 @@ export const fetchBorrowingInformation = async (
 ) => {
   try {
     const user: IUser = res.locals.user;
-    const borrowings = await Borrowing.find({ userId: user.userId }).lean();
+    const books = await Book.find().lean();
+    let borrowings = await Borrowing.find({ userId: user.userId }).lean();
+
+    borrowings = borrowings.map((item) => {
+      return {
+        ...item,
+        bookInfo: books.find((e) => e.bookId === item.bookId),
+      };
+    });
 
     ResponseHelper.handleSuccess(
       res,
@@ -64,7 +70,7 @@ export const fetchBorrowingInformation = async (
       {
         borrowingInfo: borrowings,
       },
-      StatusCodes.CREATED
+      StatusCodes.OK
     );
   } catch (error) {
     console.log(error);
