@@ -115,3 +115,29 @@ export const fetchBorrowingHistory = async (req: Request, res: Response) => {
     return ResponseHelper.handleError(res, "Failed to fetch History");
   }
 };
+
+export const fetchBorrowRequestCodes = async (req: Request, res: Response) => {
+  try {
+    let borrowings = await Borrowing.find(
+      {
+        status: BorrowingStatus.REQUESTED,
+      },
+      { borrowingId: true }
+    ).lean();
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Borrow request codes fetched successfully",
+      {
+        codes: borrowings.map((e) => e.borrowingId),
+      },
+      StatusCodes.OK
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(
+      res,
+      "Failed to fetch borrow request codes"
+    );
+  }
+};

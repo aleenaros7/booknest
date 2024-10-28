@@ -167,3 +167,20 @@ export const useUpdateBookMutation = () => {
 
   return mutation;
 };
+
+export const useFetchBorrowRequestCodesQuery = (
+  queryOptions?: QueryOptions<string>
+) => {
+  const fetchBorrowRequestCodes = async (): Promise<string[]> => {
+    const path = config.api.books.fetchBorrowRequestCodes;
+
+    const response = await client.get<ApiResponse<{ codes: string[] }>>(path);
+
+    return response.data.data.codes;
+  };
+
+  return useQuery(["fetchBorrowRequestCodes"], fetchBorrowRequestCodes, {
+    ...queryOptions,
+    ...DEFAULT_QUERY_OPTIONS,
+  });
+};

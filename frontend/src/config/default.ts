@@ -10,6 +10,7 @@ export const config = {
       createBook: "/books",
       updateBook: "/books/:bookId",
       fetchBooks: "/books",
+      fetchBorrowRequestCodes: "/books/codes",
       fetchBorrowInfo: "/books/borrow-info",
       fetchBorrowHistory: "/books/borrow-history",
       sendBorrowRequest: "/books/:bookId/borrow-request",
