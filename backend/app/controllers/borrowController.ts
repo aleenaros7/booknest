@@ -144,6 +144,32 @@ export const fetchBorrowRequestCodes = async (req: Request, res: Response) => {
   }
 };
 
+export const fetchBorrowedBookCodes = async (req: Request, res: Response) => {
+  try {
+    let borrowings = await Borrowing.find(
+      {
+        status: BorrowingStatus.BORROWED,
+      },
+      { borrowingId: true }
+    ).lean();
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Borrowed book codes fetched successfully",
+      {
+        codes: borrowings.map((e) => e.borrowingId),
+      },
+      StatusCodes.OK
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(
+      res,
+      "Failed to fetch borrowed book codes"
+    );
+  }
+};
+
 export const issueBook = async (req: Request, res: Response) => {
   try {
     const { borrowingId } = req.params;
@@ -158,16 +184,66 @@ export const issueBook = async (req: Request, res: Response) => {
       );
     }
 
-    Borrowing.findOneAndUpdate(
+    await Borrowing.findOneAndUpdate(
       { borrowingId: borrowing.borrowingId },
       {
         issuedDate: DateUtil.today(),
-        dueDate: DateUtil.afterDays(config.get<number>('borrowing.dueInDays') || 15),
+        dueDate: DateUtil.afterDays(
+          config.get<number>("borrowing.dueInDays") || 15
+        ),
         status: BorrowingStatus.BORROWED,
       }
+    );
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Book issued successfully",
+      undefined,
+      StatusCodes.OK
     );
   } catch (error) {
     console.log(error);
     return ResponseHelper.handleError(res, "Failed to issue book");
+  }
+};
+
+export const returnBook = async (req: Request, res: Response) => {
+  try {
+    const { borrowingId } = req.params;
+    const borrowing = await Borrowing.findOne({ borrowingId }).lean();
+
+    if (!borrowing) {
+      return ResponseHelper.handleError(
+        res,
+        "Borrowing info not found",
+        undefined,
+        StatusCodes.NOT_FOUND
+      );
+    }
+
+    await Borrowing.findOneAndUpdate(
+      { borrowingId: borrowing.borrowingId },
+      {
+        status: BorrowingStatus.RETURNED,
+        returnedDate: DateUtil.today(),
+      }
+    );
+
+    await Book.findOneAndUpdate(
+      {
+        bookId: borrowing.bookId,
+      },
+      { $inc: { totalCopies: 1 } }
+    );
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Book returned successfully",
+      undefined,
+      StatusCodes.OK
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Failed to return book");
   }
 };

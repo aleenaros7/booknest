@@ -11,21 +11,21 @@ import { SelectBox } from "../select-box";
 import { DropdownItem } from "../../types";
 import {
   useFetchBorrowRequestCodesQuery,
-  useIssueBookMutation,
+  useReturnBookMutation,
 } from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
 import { useValidateForm } from "../../hooks";
 import { issueBookSchema } from "../../validations";
 
-export const IssueBook = () => {
+export const ReturnBook = () => {
   const [borrowRequestsDropdown, setBorrowRequestsDropdown] =
     useState<DropdownItem[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
   const { register, handleSubmit, errors } = useValidateForm(issueBookSchema);
 
   const fetchBorrowRequestCodesQuery = useFetchBorrowRequestCodesQuery();
-  const issueBookMutation = useIssueBookMutation();
+  const issueBookMutation = useReturnBookMutation();
 
   useEffect(() => {
     if (fetchBorrowRequestCodesQuery.isSuccess) {
@@ -69,7 +69,7 @@ export const IssueBook = () => {
     issueBookMutation.error,
   ]);
 
-  const handleIssueBook = (data: any) => {
+  const handleReturnBook = (data: any) => {
     issueBookMutation.mutate(data.borrowingId);
   };
 
@@ -125,7 +125,7 @@ export const IssueBook = () => {
         <Box
           component={"form"}
           id="createBookForm"
-          onSubmit={handleSubmit(handleIssueBook)}
+          onSubmit={handleSubmit(handleReturnBook)}
           sx={{
             minWidth: "500px",
             display: "flex",

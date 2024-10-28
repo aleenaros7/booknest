@@ -184,3 +184,58 @@ export const useFetchBorrowRequestCodesQuery = (
     ...DEFAULT_QUERY_OPTIONS,
   });
 };
+
+export const useFetchBorrowedBookCodesQuery = (
+  queryOptions?: QueryOptions<string>
+) => {
+  const fetchBorrowedBookCodes = async (): Promise<string[]> => {
+    const path = config.api.books.fetchBorrowedBookCodes;
+
+    const response = await client.get<ApiResponse<{ codes: string[] }>>(path);
+
+    return response.data.data.codes;
+  };
+
+  return useQuery(["fetchBorrowedBookCodes"], fetchBorrowedBookCodes, {
+    ...queryOptions,
+    ...DEFAULT_QUERY_OPTIONS,
+  });
+};
+
+export const useIssueBookMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    string,
+    unknown
+  >(async (borrowingId: string): Promise<any> => {
+    const path = config.api.books.issueBook.replace(
+      ":borrowingId",
+      borrowingId
+    );
+
+    const response = await client.post(path);
+    return response.data;
+  });
+
+  return mutation;
+};
+
+export const useReturnBookMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    string,
+    unknown
+  >(async (borrowingId: string): Promise<any> => {
+    const path = config.api.books.returnBook.replace(
+      ":borrowingId",
+      borrowingId
+    );
+
+    const response = await client.post(path);
+    return response.data;
+  });
+
+  return mutation;
+};

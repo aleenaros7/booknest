@@ -16,10 +16,12 @@ import { verifyToken } from "app/middlewares/verifyToken";
 import { verifyLibrarian } from "app/middlewares/verifyLibrarian";
 import {
   fetchBorrowRequestCodes,
+  fetchBorrowedBookCodes,
   fetchBorrowingHistory,
   fetchBorrowingInformation,
   issueBook,
   requestBook,
+  returnBook,
 } from "app/controllers/borrowController";
 
 const bookRouter: Router = express.Router();
@@ -60,6 +62,8 @@ bookRouter.post(
 bookRouter.get("/borrow-info", verifyToken, fetchBorrowingInformation);
 bookRouter.get("/borrow-history", verifyToken, fetchBorrowingHistory);
 bookRouter.get("/codes", verifyToken, verifyLibrarian, fetchBorrowRequestCodes);
-bookRouter.get("/borrowings/:borrowingId/issue-book", verifyToken, verifyLibrarian, issueBook);
+bookRouter.get("/borrowed-codes", verifyToken, verifyLibrarian, fetchBorrowedBookCodes);
+bookRouter.post("/borrowings/:borrowingId/issue-book", verifyToken, verifyLibrarian, issueBook);
+bookRouter.post("/borrowings/:borrowingId/return-book", verifyToken, verifyLibrarian, returnBook);
 
 export { bookRouter };

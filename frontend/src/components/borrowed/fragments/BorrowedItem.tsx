@@ -9,6 +9,7 @@ import { Badge, Box } from "@mui/material";
 import { BorrowInfo } from "../../../types";
 import { TextField } from "../../text-field";
 import moment from "moment";
+import { BorrowingStatus } from "../../../enums";
 
 export const BorrowedItem = ({ info }: { info: BorrowInfo }) => {
   return (
@@ -16,7 +17,13 @@ export const BorrowedItem = ({ info }: { info: BorrowInfo }) => {
       <Box sx={{ px: 2, display: "flex", justifyContent: "flex-end" }}>
         <Badge
           badgeContent={info.status}
-          color="error"
+          color={
+            info.status === BorrowingStatus.REQUESTED
+              ? "error"
+              : info.status === BorrowingStatus.BORROWED
+              ? "success"
+              : "info"
+          }
           sx={{
             right: 30,
             top: 25,
