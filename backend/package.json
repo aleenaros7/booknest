@@ -1,7 +1,7 @@
 {
-  "name": "wordly",
+  "name": "booknest-backend",
   "version": "1.0.14",
-  "description": "wordly",
+  "description": "booknest-backend",
   "author": "",
   "license": "MIT",
   "main": "index.ts",
