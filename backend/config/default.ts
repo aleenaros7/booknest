@@ -28,6 +28,9 @@ const config = {
   token: {
     jwtTokenSecret: process.env.JWT_TOKEN_SECRET || "jwt_token_secret",
   },
+  borrowing: {
+    dueInDays: 15,
+  },
 };
 
 export default config;

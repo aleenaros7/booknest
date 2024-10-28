@@ -18,6 +18,7 @@ import {
   fetchBorrowRequestCodes,
   fetchBorrowingHistory,
   fetchBorrowingInformation,
+  issueBook,
   requestBook,
 } from "app/controllers/borrowController";
 
@@ -59,5 +60,6 @@ bookRouter.post(
 bookRouter.get("/borrow-info", verifyToken, fetchBorrowingInformation);
 bookRouter.get("/borrow-history", verifyToken, fetchBorrowingHistory);
 bookRouter.get("/codes", verifyToken, verifyLibrarian, fetchBorrowRequestCodes);
+bookRouter.get("/borrowings/:borrowingId/issue-book", verifyToken, verifyLibrarian, issueBook);
 
 export { bookRouter };

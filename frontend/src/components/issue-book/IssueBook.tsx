@@ -70,6 +70,7 @@ export const IssueBook = (props: Props) => {
     <Box
       sx={{
         width: "100%",
+        height: "75vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -107,7 +108,7 @@ export const IssueBook = (props: Props) => {
             // error={errors["genre"]}
           />
           <Button sx={{ mt: 2 }} type="submit" fullWidth variant="contained">
-            Issue
+            Issue Book
           </Button>
         </Box>
       </Card>

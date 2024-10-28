@@ -5,6 +5,8 @@ import { Book, IBook } from "app/models/Book";
 import { IUser } from "app/models/User";
 import { Borrowing } from "app/models/Borrowing";
 import { BorrowingStatus } from "app/enums";
+import { DateUtil } from "app/utils/DateUtil";
+import config from "config";
 
 export const requestBook = async (req: Request, res: Response) => {
   try {
@@ -139,5 +141,33 @@ export const fetchBorrowRequestCodes = async (req: Request, res: Response) => {
       res,
       "Failed to fetch borrow request codes"
     );
+  }
+};
+
+export const issueBook = async (req: Request, res: Response) => {
+  try {
+    const { borrowingId } = req.params;
+    const borrowing = await Borrowing.findOne({ borrowingId }).lean();
+
+    if (!borrowing) {
+      return ResponseHelper.handleError(
+        res,
+        "Borrowing request not found",
+        undefined,
+        StatusCodes.NOT_FOUND
+      );
+    }
+
+    Borrowing.findOneAndUpdate(
+      { borrowingId: borrowing.borrowingId },
+      {
+        issuedDate: DateUtil.today(),
+        dueDate: DateUtil.afterDays(config.get<number>('borrowing.dueInDays') || 15),
+        status: BorrowingStatus.BORROWED,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Failed to issue book");
   }
 };
