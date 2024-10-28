@@ -135,7 +135,7 @@ export const IssueBook = () => {
         >
           <SelectBox
             fullWidth
-            label="Borrow request code"
+            label="Book code"
             name="borrowingId"
             defaultValue={undefined}
             dropdown={borrowRequestsDropdown}

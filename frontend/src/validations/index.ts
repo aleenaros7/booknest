@@ -74,3 +74,9 @@ export const issueBookSchema = z.object({
     .string({ required_error: "This field is required" })
     .min(3, { message: "This field is required" }),
 });
+
+export const returnBookSchema = z.object({
+  borrowingId: z
+    .string({ required_error: "This field is required" })
+    .min(3, { message: "This field is required" }),
+});

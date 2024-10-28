@@ -10,71 +10,71 @@ import { useEffect, useState } from "react";
 import { SelectBox } from "../select-box";
 import { DropdownItem } from "../../types";
 import {
-  useFetchBorrowRequestCodesQuery,
+  useFetchBorrowedBookCodesQuery,
   useReturnBookMutation,
 } from "../../api";
 import { toastOptionsAtom } from "../../store";
 import { useAtom } from "jotai";
 import { useValidateForm } from "../../hooks";
-import { issueBookSchema } from "../../validations";
+import { returnBookSchema } from "../../validations";
 
 export const ReturnBook = () => {
   const [borrowRequestsDropdown, setBorrowRequestsDropdown] =
     useState<DropdownItem[]>();
   const [, setToastOptions] = useAtom(toastOptionsAtom);
-  const { register, handleSubmit, errors } = useValidateForm(issueBookSchema);
+  const { register, handleSubmit, errors } = useValidateForm(returnBookSchema);
 
-  const fetchBorrowRequestCodesQuery = useFetchBorrowRequestCodesQuery();
-  const issueBookMutation = useReturnBookMutation();
+  const fetchBorrowedBookCodesQuery = useFetchBorrowedBookCodesQuery();
+  const returnBookMutation = useReturnBookMutation();
 
   useEffect(() => {
-    if (fetchBorrowRequestCodesQuery.isSuccess) {
+    if (fetchBorrowedBookCodesQuery.isSuccess) {
       const borrowRequestsDropdown: DropdownItem[] =
-        fetchBorrowRequestCodesQuery.data.map((e) => ({
+        fetchBorrowedBookCodesQuery.data.map((e) => ({
           key: e,
           value: e,
         }));
       setBorrowRequestsDropdown(borrowRequestsDropdown);
     }
   }, [
-    fetchBorrowRequestCodesQuery.isSuccess,
-    fetchBorrowRequestCodesQuery.isLoading,
-    fetchBorrowRequestCodesQuery.isError,
-    fetchBorrowRequestCodesQuery.data,
-    fetchBorrowRequestCodesQuery.error,
+    fetchBorrowedBookCodesQuery.isSuccess,
+    fetchBorrowedBookCodesQuery.isLoading,
+    fetchBorrowedBookCodesQuery.isError,
+    fetchBorrowedBookCodesQuery.data,
+    fetchBorrowedBookCodesQuery.error,
   ]);
 
   useEffect(() => {
-    if (issueBookMutation.isSuccess) {
-      fetchBorrowRequestCodesQuery.refetch();
+    if (returnBookMutation.isSuccess) {
+      fetchBorrowedBookCodesQuery.refetch();
       setToastOptions({
         open: true,
-        message: "Book issued successfully",
+        message: "Book returned successfully",
         severity: "info",
       });
     }
 
-    if (issueBookMutation.isError) {
+    if (returnBookMutation.isError) {
       setToastOptions({
         open: true,
-        message: "Book cannot be issued at this moment",
+        message: "Book cannot be returned at this moment",
         severity: "error",
       });
     }
   }, [
-    issueBookMutation.isSuccess,
-    issueBookMutation.isLoading,
-    issueBookMutation.isError,
-    issueBookMutation.data,
-    issueBookMutation.error,
+    returnBookMutation.isSuccess,
+    returnBookMutation.isLoading,
+    returnBookMutation.isError,
+    returnBookMutation.data,
+    returnBookMutation.error,
   ]);
 
   const handleReturnBook = (data: any) => {
-    issueBookMutation.mutate(data.borrowingId);
+    returnBookMutation.mutate(data.borrowingId);
   };
 
-  return fetchBorrowRequestCodesQuery.isLoading ||
-    issueBookMutation.isLoading ? (
+  return fetchBorrowedBookCodesQuery.isLoading ||
+    returnBookMutation.isLoading ? (
     <Box
       sx={{
         px: 2,
@@ -87,7 +87,7 @@ export const ReturnBook = () => {
     >
       <CircularProgress />
     </Box>
-  ) : fetchBorrowRequestCodesQuery.isError || !borrowRequestsDropdown ? (
+  ) : fetchBorrowedBookCodesQuery.isError || !borrowRequestsDropdown ? (
     <Box
       sx={{
         px: 2,
@@ -118,7 +118,7 @@ export const ReturnBook = () => {
           <Typography
             sx={{ width: "100%", fontSize: "1.3rem", textAlign: "center" }}
           >
-            Issue Book
+            Return Book
           </Typography>
         </Box>
         <Divider sx={{ mt: 3, mb: 4 }} />
@@ -135,7 +135,7 @@ export const ReturnBook = () => {
         >
           <SelectBox
             fullWidth
-            label="Borrow request code"
+            label="Book code"
             name="borrowingId"
             defaultValue={undefined}
             dropdown={borrowRequestsDropdown}
@@ -143,7 +143,7 @@ export const ReturnBook = () => {
             error={errors["borrowingId"]}
           />
           <Button sx={{ mt: 2 }} type="submit" fullWidth variant="contained">
-            Issue Book
+            Return Book
           </Button>
         </Box>
       </Card>

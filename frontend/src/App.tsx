@@ -7,6 +7,7 @@ import { toastOptionsAtom } from "./store";
 import { Borrowed } from "./components/borrowed";
 import { LibrarianBooks } from "./components/librarian-books";
 import { IssueBook } from "./components/issue-book";
+import { ReturnBook } from "./components/return-book";
 
 function App() {
   const [toastOptions, setToastOptions] = useAtom(toastOptionsAtom);
@@ -28,7 +29,7 @@ function App() {
             <Route index element={<Navigate to={"books"} />} />
             <Route path="books" element={<LibrarianBooks />} />
             <Route path="issue" element={<IssueBook />} />
-            <Route path="return" element={<Borrowed />} />
+            <Route path="return" element={<ReturnBook />} />
             <Route path="history" element={<History />} />
             <Route path="*" element={<Error />} />
           </Route>
