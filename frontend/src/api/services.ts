@@ -168,6 +168,22 @@ export const useUpdateBookMutation = () => {
   return mutation;
 };
 
+export const useDeleteBookMutation = () => {
+  const mutation = useMutation<
+    unknown,
+    AxiosError<ApiResponse<any>>,
+    string,
+    unknown
+  >(async (bookId): Promise<any> => {
+    const path = config.api.books.deleteBook.replace(":bookId", bookId);
+    const response = await client.delete(path);
+
+    return response.data;
+  });
+
+  return mutation;
+};
+
 export const useFetchBorrowRequestCodesQuery = (
   queryOptions?: QueryOptions<string>
 ) => {

@@ -4,7 +4,6 @@ import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import BookIcon from "@mui/icons-material/Book";
-import HistoryIcon from "@mui/icons-material/History";
 import { Sidebar } from "../components";
 import { Breadcrumbs, Typography } from "@mui/material";
 import { Menu } from "../types";
@@ -15,7 +14,6 @@ const menu: Menu[] = [
   { label: "Books", path: "books", icon: <MenuBookIcon /> },
   { label: "Issue", path: "issue", icon: <BookIcon /> },
   { label: "Return", path: "return", icon: <AssignmentRoundedIcon /> },
-  { label: "History", path: "history", icon: <HistoryIcon /> },
 ];
 export const Librarian = () => {
   const [selectedMenu, setSelectedMenu] = useState<Menu>();

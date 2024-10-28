@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Badge, Box, Button } from "@mui/material";
 import { Book } from "../../../types";
 
@@ -39,7 +39,7 @@ export const LibrarianBookItem = ({
               </Badge>
             </IconButton>
             <IconButton aria-label="settings">
-              <HighlightOffIcon
+              <DeleteIcon
                 onClick={() => {
                   handleDelete(book);
                 }}

@@ -16,6 +16,7 @@ import { SelectBox } from "../select-box";
 import { Genre } from "../../enums";
 import {
   useCreateBookMutation,
+  useDeleteBookMutation,
   useFetchBooksQuery,
   useUpdateBookMutation,
 } from "../../api";
@@ -47,6 +48,7 @@ export const LibrarianBooks = () => {
   const fetchBooksQuery = useFetchBooksQuery();
   const createBookMutation = useCreateBookMutation();
   const updateBookMutation = useUpdateBookMutation();
+  const deleteBookMutation = useDeleteBookMutation();
 
   const { register, handleSubmit, errors, reset } =
     useValidateForm(createBookSchema);
@@ -108,6 +110,32 @@ export const LibrarianBooks = () => {
   ]);
 
   useEffect(() => {
+    setBookDefaultValues(undefined);
+    if (deleteBookMutation.isSuccess) {
+      fetchBooksQuery.refetch();
+      setToastOptions({
+        open: true,
+        message: "Book deleted",
+        severity: "info",
+      });
+    }
+
+    if (deleteBookMutation.isError) {
+      setToastOptions({
+        open: true,
+        message: "Cannot delete book at this moment",
+        severity: "error",
+      });
+    }
+  }, [
+    deleteBookMutation.isSuccess,
+    deleteBookMutation.isLoading,
+    deleteBookMutation.isError,
+    deleteBookMutation.data,
+    deleteBookMutation.error,
+  ]);
+
+  useEffect(() => {
     if (createBookMutation.isSuccess) {
       fetchBooksQuery.refetch();
       setToastOptions({
@@ -138,7 +166,7 @@ export const LibrarianBooks = () => {
   };
 
   const handleDeleteBook = (book: Book) => {
-    console.log(book);
+    deleteBookMutation.mutate(book.bookId);
   };
 
   const handleCreateBook = ({ totalCopies, ...data }: any) => {
@@ -159,6 +187,7 @@ export const LibrarianBooks = () => {
     <>
       {fetchBooksQuery.isLoading ||
       updateBookMutation.isLoading ||
+      deleteBookMutation.isLoading ||
       createBookMutation.isLoading ||
       fetchBooksQuery.isFetching ||
       fetchBooksQuery.isRefetching ? (
