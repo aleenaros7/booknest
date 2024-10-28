@@ -135,7 +135,9 @@ export const LibrarianBooks = () => {
   const handleUpdateBook = (book: Book) => {
     setBookDefaultValues(book);
     setOpenEditBookDialog(true);
+  };
 
+  const handleDeleteBook = (book: Book) => {
     console.log(book);
   };
 
@@ -233,6 +235,7 @@ export const LibrarianBooks = () => {
                     <LibrarianBookItem
                       book={book}
                       handleUpdate={handleUpdateBook}
+                      handleDelete={handleDeleteBook}
                     />
                   </Grid>
                 ))}

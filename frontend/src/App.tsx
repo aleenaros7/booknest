@@ -30,7 +30,6 @@ function App() {
             <Route path="books" element={<LibrarianBooks />} />
             <Route path="issue" element={<IssueBook />} />
             <Route path="return" element={<ReturnBook />} />
-            <Route path="history" element={<History />} />
             <Route path="*" element={<Error />} />
           </Route>
           <Route path="/student" element={<Student />}>

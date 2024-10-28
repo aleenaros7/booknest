@@ -8,14 +8,17 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Badge, Box, Button } from "@mui/material";
 import { Book } from "../../../types";
 
 export const LibrarianBookItem = ({
   book,
+  handleDelete,
   handleUpdate,
 }: {
   book: Book;
+  handleDelete: (book: Book) => void;
   handleUpdate: (book: Book) => void;
 }) => {
   return (
@@ -29,11 +32,20 @@ export const LibrarianBookItem = ({
           />
         }
         action={
-          <IconButton aria-label="settings">
-            <Badge badgeContent={book.totalCopies} color="error">
-              <LibraryBooksIcon />
-            </Badge>
-          </IconButton>
+          <>
+            <IconButton aria-label="settings">
+              <Badge badgeContent={book.totalCopies} color="error">
+                <LibraryBooksIcon />
+              </Badge>
+            </IconButton>
+            <IconButton aria-label="settings">
+              <HighlightOffIcon
+                onClick={() => {
+                  handleDelete(book);
+                }}
+              />
+            </IconButton>
+          </>
         }
         title={
           book.title.length > 24 ? `${book.title.slice(0, 24)}...` : book.title

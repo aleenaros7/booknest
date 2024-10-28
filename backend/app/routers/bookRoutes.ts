@@ -9,6 +9,7 @@ import {
 import {
   bulkCreateBooks,
   createBook,
+  deleteBook,
   fetchBooks,
   updateBook,
 } from "app/controllers/bookController";
@@ -62,8 +63,24 @@ bookRouter.post(
 bookRouter.get("/borrow-info", verifyToken, fetchBorrowingInformation);
 bookRouter.get("/borrow-history", verifyToken, fetchBorrowingHistory);
 bookRouter.get("/codes", verifyToken, verifyLibrarian, fetchBorrowRequestCodes);
-bookRouter.get("/borrowed-codes", verifyToken, verifyLibrarian, fetchBorrowedBookCodes);
-bookRouter.post("/borrowings/:borrowingId/issue-book", verifyToken, verifyLibrarian, issueBook);
-bookRouter.post("/borrowings/:borrowingId/return-book", verifyToken, verifyLibrarian, returnBook);
+bookRouter.get(
+  "/borrowed-codes",
+  verifyToken,
+  verifyLibrarian,
+  fetchBorrowedBookCodes
+);
+bookRouter.post(
+  "/borrowings/:borrowingId/issue-book",
+  verifyToken,
+  verifyLibrarian,
+  issueBook
+);
+bookRouter.post(
+  "/borrowings/:borrowingId/return-book",
+  verifyToken,
+  verifyLibrarian,
+  returnBook
+);
+bookRouter.delete("/:bookId", verifyToken, verifyLibrarian, deleteBook);
 
 export { bookRouter };

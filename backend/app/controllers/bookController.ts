@@ -101,3 +101,34 @@ export const updateBook = async (req: Request, res: Response) => {
     return ResponseHelper.handleError(res, "Updating book failed");
   }
 };
+
+export const deleteBook = async (req: Request, res: Response) => {
+  try {
+    const { bookId } = req.params;
+
+    const book = await Book.findOne({ bookId }).lean();
+
+    if (!book) {
+      return ResponseHelper.handleError(
+        res,
+        "Book not found",
+        undefined,
+        StatusCodes.NOT_FOUND
+      );
+    }
+
+    await Book.deleteOne({
+      bookId: bookId,
+    });
+
+    ResponseHelper.handleSuccess(
+      res,
+      "Book successfully deleted",
+      undefined,
+      StatusCodes.CREATED
+    );
+  } catch (error) {
+    console.log(error);
+    return ResponseHelper.handleError(res, "Deleting book failed");
+  }
+};
