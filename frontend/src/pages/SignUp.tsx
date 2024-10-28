@@ -7,7 +7,7 @@ import { TextField } from "../components";
 import { signupSchema } from "../validations";
 import { useValidateForm } from "../hooks";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { InputAdornment, IconButton } from "@mui/material";
+import { InputAdornment, IconButton, Link } from "@mui/material";
 import { useSignUpMutation } from "../api";
 import { toastOptionsAtom } from "../store";
 import { useAtom } from "jotai";
@@ -193,6 +193,14 @@ export const SignUp = () => {
           >
             {loading ? "Creating account" : "Sign Up"}
           </Button>
+          <Typography sx={{ textAlign: "center" }}>
+            Already have an account?{" "}
+            <span>
+              <Link href="/sign-in" sx={{ alignSelf: "center" }}>
+                Sign in
+              </Link>
+            </span>
+          </Typography>
         </Box>
       </Card>
     </Box>
