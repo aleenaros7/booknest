@@ -6,7 +6,7 @@ import {
   MenuItem,
   Select as MuiSelectField,
 } from "@mui/material";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { DropdownItem } from "../../types";
 import { FieldError, UseFormRegister } from "react-hook-form";
 

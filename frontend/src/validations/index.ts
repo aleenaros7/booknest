@@ -1,12 +1,5 @@
 import { z } from "zod";
 
-const urlSchema = z
-  .string()
-  .regex(
-    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/,
-    "Invalid url"
-  );
-
 export const signInSchema = z.object({
   userName: z.string().trim().min(1, "username is required"),
   password: z

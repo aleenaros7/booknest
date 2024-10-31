@@ -1,0 +1,46 @@
+Connect to Azure VM
+-------------------
+ssh -i ./booknest_key.pem booknest@72.145.0.203
+
+First time installation steps on Azure VM 
+------------------------------------------
+sudo apt-get install -y git
+sudo apt-get install -y docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+exit
+reconnect
+sudo systemctl start docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+Download package from git
+-----------------------------
+git clone https://github.com/aleenaros7/booknest.git
+cd booknest
+
+Run using docker-compose 
+-------------------------
+docker-compose up -d
+
+Open ports 
+-----------
+Frontend and backend ports need to be open to internet
+1. Go to azure VM
+2. Choose VM 
+3. Network Settings 
+4. Create port rule (inbound)
+5. Add destination port range 5173
+6. Create another port rule and add destination port range 5000
+
+docker commands
+----------------
+docker-compose up -d
+docker-compose build
+docker-compose stop
+docker images
+docker ps 
+docker ps -a 
+docker rm id 
+docker rmi id
+docker logs id
