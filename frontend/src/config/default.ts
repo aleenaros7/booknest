@@ -1,6 +1,6 @@
 export const config = {
   api: {
-    baseUrl: "http://localhost:5000",
+    baseUrl: "http://72.145.0.203:5000",
     user: {},
     auth: {
       signIn: "/auth/sign-in",
